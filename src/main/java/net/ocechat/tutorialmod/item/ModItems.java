@@ -11,7 +11,7 @@ import net.ocechat.tutorialmod.TutorialMod;
 
 public class ModItems {
 
-    public static final Item PINK_GARNET = registerItem("pink_garnet", new Item(new Item.Settings(.rarity(Rarity.EPIC))));
+    public static final Item PINK_GARNET = registerItem("pink_garnet", new Item(new Item.Settings())); //.rarity(Rarity.EPIC)
 
 
 
