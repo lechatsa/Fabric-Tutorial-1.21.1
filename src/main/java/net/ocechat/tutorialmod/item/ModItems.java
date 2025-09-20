@@ -6,11 +6,12 @@ import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
 import net.ocechat.tutorialmod.TutorialMod;
 
 public class ModItems {
 
-    public static final Item PINK_GARNET = registerItem("pink_garnet", new Item(new Item.Settings(.fireproof())));
+    public static final Item PINK_GARNET = registerItem("pink_garnet", new Item(new Item.Settings(.rarity(Rarity.EPIC))));
 
 
 
