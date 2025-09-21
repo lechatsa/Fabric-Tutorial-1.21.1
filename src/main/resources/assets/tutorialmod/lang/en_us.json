@@ -13,6 +13,9 @@
   "block.tutorialmod.magic_block": "Magic Block",
 
   "itemgroup.tutorialmod.pink_garnet_items": "Pink Garnet Items",
-  "itemgroup.tutorialmod.pink_garnet_blocks": "Pink Garnet Blocks"
+  "itemgroup.tutorialmod.pink_garnet_blocks": "Pink Garnet Blocks",
 
+  "tooltip.tutorialmod.chisel.shift_down": "Use the right button to cut blocks",
+  "tooltip.tutorialmod.chisel": "Hold shift for more information",
+  "tooltip.tutorialmod.magic_block": "This block is very, very Magic"
 }
