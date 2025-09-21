@@ -1,6 +1,7 @@
 package net.ocechat.tutorialmod.item.custom;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Item;
@@ -28,15 +29,11 @@ public class ExplosionStickItem extends Item {
         Block clickedBlock = world.getBlockState(context.getBlockPos()).getBlock();
         if (!world.isClient()) {
 
-            world.createExplosion(null, context.getBlockPos().getX(), context.getBlockPos().getY(), context.getBlockPos().getZ(), 3, World.ExplosionSourceType.TRIGGER);
+            world.createExplosion(null, context.getBlockPos().getX(), context.getBlockPos().getY() + 1, context.getBlockPos().getZ(), 2, World.ExplosionSourceType.TRIGGER);
 
             context.getStack().damage(1, ((ServerWorld) world), ((ServerPlayerEntity) context.getPlayer()),
                     item -> context.getPlayer().sendEquipmentBreakStatus(item, EquipmentSlot.MAINHAND));
-
-            world.playSound(null, context.getBlockPos(), SoundEvents.ENTITY_PLAYER_HURT, SoundCategory.PLAYERS);
         }
-
-
         return ActionResult.SUCCESS;
     }
 }
