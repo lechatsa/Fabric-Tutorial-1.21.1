@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.ExperienceDroppingBlock;
+import net.minecraft.block.StairsBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
@@ -18,7 +19,7 @@ import net.ocechat.tutorialmod.block.custom.MagicBlock;
 
 public class ModBlocks {
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////// Register of NORMAL Blocks ///////////////////////////////////////////////
 
     public static final Block PINK_GARNET_BLOCK = registerBlock("pink_garnet_block",
             new Block(AbstractBlock.Settings.create()
@@ -34,12 +35,14 @@ public class ModBlocks {
                     .sounds(BlockSoundGroup.AMETHYST_BLOCK)
             ));
 
+    //////////////////////////////////////// Register of EXPERIENCE DROPPING Blocks ////////////////////////////////////////
+
     public static final Block PINK_GARNET_ORE_BLOCK = registerBlock("pink_garnet_ore_block",
             new ExperienceDroppingBlock(UniformIntProvider.create(2, 10),
                     AbstractBlock.Settings.create()
-                    .strength(4f)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.STONE)
+                            .strength(4f)
+                            .requiresTool()
+                            .sounds(BlockSoundGroup.STONE)
             ));
 
     public static final Block PINK_GARNET_DEEPSLATE_ORE_BLOCK = registerBlock("pink_garnet_deepslate_ore_block",
@@ -50,14 +53,29 @@ public class ModBlocks {
                             .sounds(BlockSoundGroup.DEEPSLATE)
             ));
 
+    /////////////////////////////////////////////// Register of CUSTOM Blocks ///////////////////////////////////////////////
+
     public static final Block MAGIC_BLOCK = registerBlock("magic_block",
-            new MagicBlock(AbstractBlock.Settings.create()
-                    .strength(1f)
-                    .requiresTool()
-                    .sounds(BlockSoundGroup.AMETHYST_BLOCK)
+            new MagicBlock(
+                    AbstractBlock.Settings.create()
+                            .strength(1f)
+                            .requiresTool()
+                            .sounds(BlockSoundGroup.AMETHYST_BLOCK)
             ));
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////// Register of NON-BLOCKS Blocks /////////////////////////////////////////////
+
+    public static final Block PINK_GARNET_STAIRS =registerBlock("pink_garnet_stairs",
+            new StairsBlock(ModBlocks.PINK_GARNET_BLOCK.getDefaultState(),
+                    AbstractBlock.Settings.create()
+                            .strength(2f)
+                            .requiresTool()
+                            .sounds(BlockSoundGroup.AMETHYST_BLOCK)
+                    ));
+
+    ////////////////////////////////////////////////// End of the Register //////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////// Helper Methods ////////////////////////////////////////////////////
 
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);
@@ -69,7 +87,6 @@ public class ModBlocks {
             new BlockItem(block, new Item.Settings()));
     }
 
-
     public static void registerModBlocks() {
         TutorialMod.LOGGER.info("Registering Mod Blocks for " + TutorialMod.MOD_ID);
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register(entries -> {
@@ -80,5 +97,5 @@ public class ModBlocks {
         });
 
     }
-
+    /////////////////////////////////////////////// End of the Helper Methods ///////////////////////////////////////////////
 }
