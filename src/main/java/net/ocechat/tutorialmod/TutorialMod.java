@@ -2,6 +2,7 @@ package net.ocechat.tutorialmod;
 
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.ocechat.tutorialmod.block.ModBlocks;
 import net.ocechat.tutorialmod.item.ModItemGroups;
 import net.ocechat.tutorialmod.item.ModItems;
@@ -19,5 +20,6 @@ public class TutorialMod implements ModInitializer {
         ModBlocks.registerModBlocks();
         ModItemGroups.registerItemGroups();
 
+        FuelRegistry.INSTANCE.add(ModItems.STARLITGHT_ASHES, 3000);
 	}
 }

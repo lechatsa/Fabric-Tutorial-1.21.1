@@ -6,7 +6,6 @@ import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Rarity;
 import net.ocechat.tutorialmod.TutorialMod;
 import net.ocechat.tutorialmod.item.custom.ChiselItem;
 import net.ocechat.tutorialmod.item.custom.ExplosionStickItem;
@@ -20,6 +19,10 @@ public class ModItems {
 
     public static final Item CHISEL = registerItem("chisel", new ChiselItem(new Item.Settings().maxDamage(32)));
     public static final Item EXPLOSION_STICK = registerItem("explosion_stick", new ExplosionStickItem(new Item.Settings().maxDamage(32)));
+
+    public static final Item CAULIFLOWER = registerItem("cauliflower", new Item(new Item.Settings().food(ModFoodComponents.CAULIFLOWER)));
+
+    public static final Item STARLITGHT_ASHES = registerItem("starlight_ashes", new Item(new Item.Settings()));
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
