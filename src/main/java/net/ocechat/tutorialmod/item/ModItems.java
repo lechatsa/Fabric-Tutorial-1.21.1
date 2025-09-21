@@ -8,6 +8,8 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.ocechat.tutorialmod.TutorialMod;
+import net.ocechat.tutorialmod.item.custom.ChiselItem;
+import net.ocechat.tutorialmod.item.custom.ExplosionStickItem;
 
 public class ModItems {
 
@@ -15,6 +17,9 @@ public class ModItems {
 
     public static final Item PINK_GARNET = registerItem("pink_garnet", new Item(new Item.Settings())); //.rarity(Rarity.EPIC)
     public static final Item RAW_PINK_GARNET = registerItem("raw_pink_garnet", new Item(new Item.Settings()));
+
+    public static final Item CHISEL = registerItem("chisel", new ChiselItem(new Item.Settings().maxDamage(32)));
+    public static final Item EXPLOSION_STICK = registerItem("explosion_stick", new ExplosionStickItem(new Item.Settings().maxDamage(32)));
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
