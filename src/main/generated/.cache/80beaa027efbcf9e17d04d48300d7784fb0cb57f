@@ -1,3 +1,6 @@
-// 1.21.1	2025-09-21T20:46:23.7932834	Tutorial Mod/Tags for minecraft:block
+// 1.21.1	2025-09-23T18:10:35.6092545	Tutorial Mod/Tags for minecraft:block
+8159fdbcb7619cbd57674525489b6dfed8a407fd data\minecraft\tags\block\fence_gates.json
+6e20b69a9d2f5656b1009614747a8e826f937071 data\minecraft\tags\block\walls.json
 7d5691d9296f16e42b1ae569ecd6ea9a3a21f3ca data\minecraft\tags\block\mineable\pickaxe.json
 f7bfa6bbf659153d8b4f51ce5a37ebdfbe0addbf data\minecraft\tags\block\needs_diamond_tool.json
+87c23b954c6a1061edf28d30d87d40ccfecb8a8f data\minecraft\tags\block\fences.json
