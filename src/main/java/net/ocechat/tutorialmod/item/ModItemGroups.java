@@ -9,6 +9,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.ocechat.tutorialmod.TutorialMod;
 import net.ocechat.tutorialmod.block.ModBlocks;
+import net.ocechat.tutorialmod.block.custom.PinkGarnetLampBlock;
 
 public class ModItemGroups {
 
@@ -55,6 +56,8 @@ public class ModItemGroups {
                         entries.add(ModBlocks.PINK_GARNET_WALL);
                         entries.add(ModBlocks.PINK_GARNET_PRESSURE_PLATE);
                         entries.add(ModBlocks.PINK_GARNET_FENCE_GATE);
+
+                        entries.add(ModBlocks.PINK_GARNET_LAMP);
 
                         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
