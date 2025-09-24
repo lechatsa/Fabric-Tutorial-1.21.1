@@ -9,6 +9,7 @@ import net.minecraft.util.Rarity;
 import net.ocechat.tutorialmod.TutorialMod;
 import net.ocechat.tutorialmod.item.custom.ChiselItem;
 import net.ocechat.tutorialmod.item.custom.ExplosionStickItem;
+import net.ocechat.tutorialmod.item.custom.HammerItem;
 
 public class ModItems {
 
@@ -45,6 +46,9 @@ public class ModItems {
             .attributeModifiers(HoeItem.createAttributeModifiers(ModToolMaterials.PINK_GARNET, 0, -3f))
     ));
 
+    public static final Item PINK_GARNET_HAMMER = registerItem("pink_garnet_hammer", new HammerItem(ModToolMaterials.PINK_GARNET , new Item.Settings()
+            .attributeModifiers(PickaxeItem.createAttributeModifiers(ModToolMaterials.PINK_GARNET, 7, -3.4f))
+    ));
 
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
