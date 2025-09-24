@@ -15,6 +15,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.world.World;
+import net.ocechat.tutorialmod.component.ModDataComponentTypes;
 
 import java.util.List;
 import java.util.Map;
@@ -48,7 +49,12 @@ public class ChiselItem extends Item {
                         item -> context.getPlayer().sendEquipmentBreakStatus(item, EquipmentSlot.MAINHAND));
 
                 world.playSound(null, context.getBlockPos(), SoundEvents.BLOCK_AMETHYST_BLOCK_BREAK, SoundCategory.BLOCKS);
+
+                context.getStack().set(ModDataComponentTypes.COORDINATES, context.getBlockPos());
+
             }
+
+
         }
 
         return ActionResult.SUCCESS;
@@ -61,6 +67,16 @@ public class ChiselItem extends Item {
         } else {
             tooltip.add(Text.translatable("tooltip.tutorialmod.chisel"));
         }
+
+        if (stack.get(ModDataComponentTypes.COORDINATES) != null) {
+            tooltip.add(Text.literal(String.format("Last Block changed at coordinates XYZ: %d / %d / %d",
+                    stack.get(ModDataComponentTypes.COORDINATES).getX(),
+                    stack.get(ModDataComponentTypes.COORDINATES).getY(),
+                    stack.get(ModDataComponentTypes.COORDINATES).getZ()
+                    )));
+        }
+
+
 
         super.appendTooltip(stack, context, tooltip, type);
     }
