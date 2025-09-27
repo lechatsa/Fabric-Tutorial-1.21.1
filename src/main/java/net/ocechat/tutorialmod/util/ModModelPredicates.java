@@ -2,7 +2,7 @@ package net.ocechat.tutorialmod.util;
 
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
+
 import net.minecraft.util.Identifier;
 import net.ocechat.tutorialmod.TutorialMod;
 import net.ocechat.tutorialmod.component.ModDataComponentTypes;
