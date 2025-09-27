@@ -2,8 +2,18 @@ package net.ocechat.tutorialmod;
 
 import net.fabricmc.api.ModInitializer;
 
+import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.SheepEntity;
+import net.minecraft.item.Items;
+import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 import net.ocechat.tutorialmod.block.ModBlocks;
 import net.ocechat.tutorialmod.component.ModDataComponentTypes;
 import net.ocechat.tutorialmod.item.ModItemGroups;
@@ -28,5 +38,16 @@ public class TutorialMod implements ModInitializer {
         FuelRegistry.INSTANCE.add(ModItems.STARLITGHT_ASHES, 3000);
 
         PlayerBlockBreakEvents.BEFORE.register(new HammerUsageEvent());
+        AttackEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
+
+            if (player.getMainHandStack().getItem() == Items.IRON_BARS && entity instanceof SheepEntity sheepEntity && !world.isClient) {
+                player.getMainHandStack().decrement(1);
+                sheepEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 600, 6));
+            return ActionResult.PASS;
+            }
+            return ActionResult.PASS;
+        });
+
+
 	}
 }
