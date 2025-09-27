@@ -41,6 +41,8 @@ public class ModItemGroups {
                         entries.add(ModItems.PINK_GARNET_LEGGINGS);
                         entries.add(ModItems.PINK_GARNET_BOOTS);
 
+                        entries.add(ModItems.KAUPEN_BOW);
+
 
                         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

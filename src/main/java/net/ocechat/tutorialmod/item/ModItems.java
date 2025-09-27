@@ -71,6 +71,10 @@ public class ModItems {
             .rarity(Rarity.EPIC)
     ));
 
+    public static final Item KAUPEN_BOW = registerItem("kaupen_bow", new BowItem(new Item.Settings()
+            .maxDamage(500)
+            .rarity(Rarity.EPIC)
+    ));
 
     /// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
