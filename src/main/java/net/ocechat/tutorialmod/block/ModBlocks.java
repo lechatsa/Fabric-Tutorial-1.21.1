@@ -13,6 +13,7 @@ import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.ocechat.tutorialmod.TutorialMod;
 import net.ocechat.tutorialmod.block.custom.MagicBlock;
 import net.ocechat.tutorialmod.block.custom.PinkGarnetLampBlock;
+import net.ocechat.tutorialmod.sound.ModSound;
 
 
 public class ModBlocks {
@@ -55,7 +56,7 @@ public class ModBlocks {
             new MagicBlock(AbstractBlock.Settings.create()
                     .strength(1f)
                     .requiresTool()
-                    .sounds(BlockSoundGroup.AMETHYST_BLOCK)
+                    .sounds(ModSound.MAGIC_BLOCK_SOUND_GROUP)
             ));
 
     public static final Block PINK_GARNET_LAMP = registerBlock("pink_garnet_lamp",

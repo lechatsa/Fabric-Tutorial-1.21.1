@@ -18,6 +18,7 @@ import net.ocechat.tutorialmod.block.ModBlocks;
 import net.ocechat.tutorialmod.component.ModDataComponentTypes;
 import net.ocechat.tutorialmod.item.ModItemGroups;
 import net.ocechat.tutorialmod.item.ModItems;
+import net.ocechat.tutorialmod.sound.ModSound;
 import net.ocechat.tutorialmod.util.HammerUsageEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,7 +34,7 @@ public class TutorialMod implements ModInitializer {
         ModBlocks.registerModBlocks();
         ModItemGroups.registerItemGroups();
         ModDataComponentTypes.registerDataComponentTypes();
-
+        ModSound.registerSounds();
 
         FuelRegistry.INSTANCE.add(ModItems.STARLITGHT_ASHES, 3000);
 
