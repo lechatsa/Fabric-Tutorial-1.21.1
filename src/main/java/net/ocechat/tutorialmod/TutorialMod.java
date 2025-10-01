@@ -12,6 +12,7 @@ import net.minecraft.item.Items;
 import net.minecraft.util.ActionResult;
 import net.ocechat.tutorialmod.block.ModBlocks;
 import net.ocechat.tutorialmod.component.ModDataComponentTypes;
+import net.ocechat.tutorialmod.enchantment.ModEnchantmentEffects;
 import net.ocechat.tutorialmod.item.ModItemGroups;
 import net.ocechat.tutorialmod.item.ModItems;
 import net.ocechat.tutorialmod.sound.ModSound;
@@ -31,6 +32,8 @@ public class TutorialMod implements ModInitializer {
         ModItemGroups.registerItemGroups();
         ModDataComponentTypes.registerDataComponentTypes();
         ModSound.registerSounds();
+        ModEnchantmentEffects.registerEnchantmentEffect();
+
 
         FuelRegistry.INSTANCE.add(ModItems.STARLITGHT_ASHES, 3000);
 
