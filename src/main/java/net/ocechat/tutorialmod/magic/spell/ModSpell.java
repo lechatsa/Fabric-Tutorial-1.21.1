@@ -2,11 +2,8 @@ package net.ocechat.tutorialmod.magic.spell;
 
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.world.World;
-import net.ocechat.tutorialmod.magic.casting.ModKeyBinding;
-import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 
 public abstract class ModSpell {
@@ -31,9 +28,6 @@ public abstract class ModSpell {
 
     public abstract void cast(World world, PlayerEntity player);
 
-    private void isCast(World world, PlayerEntity player) {
-        cast(world, player);
-    }
 
     public boolean canCast(PlayerEntity player) {
         return currentCooldown <= 0;

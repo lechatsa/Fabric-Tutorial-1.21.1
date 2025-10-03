@@ -2,28 +2,31 @@ package net.ocechat.tutorialmod;
 
 import net.fabricmc.api.ModInitializer;
 
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.passive.SheepEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.ocechat.tutorialmod.block.ModBlocks;
 import net.ocechat.tutorialmod.component.ModDataComponentTypes;
 import net.ocechat.tutorialmod.enchantment.ModEnchantmentEffects;
 import net.ocechat.tutorialmod.item.ModItemGroups;
 import net.ocechat.tutorialmod.item.ModItems;
-import net.ocechat.tutorialmod.magic.casting.ModKeyBinding;
-import net.ocechat.tutorialmod.magic.casting.ModKeyListener;
+import net.ocechat.tutorialmod.util.ModKeyBinding;
+import net.ocechat.tutorialmod.magic.casting.KeyInputHandler;
+import net.ocechat.tutorialmod.magic.casting.SpellCastPayload;
+import net.ocechat.tutorialmod.network.SpellCastNetworking;
 import net.ocechat.tutorialmod.sound.ModSound;
 import net.ocechat.tutorialmod.util.HammerUsageEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import net.ocechat.tutorialmod.magic.spell.ModSpellRegistry;
+
+
 
 public class TutorialMod implements ModInitializer {
 	public static final String MOD_ID = "tutorialmod";
@@ -40,9 +43,7 @@ public class TutorialMod implements ModInitializer {
         ModEnchantmentEffects.registerEnchantmentEffect();
 
         ModKeyBinding.registerModKeyBinding();
-        ModKeyListener.registerModKeyListener();
-
-        ModKeyListener.keyListener();
+        KeyInputHandler.registerKeyInputHandler();
 
         FuelRegistry.INSTANCE.add(ModItems.STARLITGHT_ASHES, 3000);
 
@@ -58,6 +59,35 @@ public class TutorialMod implements ModInitializer {
             return ActionResult.PASS;
         });
 
+        ModSpellRegistry.registerAll();
+
+        PayloadTypeRegistry.playC2S().register(
+                SpellCastPayload.ID,
+                SpellCastPayload.CODEC
+        );
+
+        SpellCastNetworking.registerC2SPackets();
+
+
+        /*
+        // enregistre le codec (obligatoire AVANT d'enregistrer le receiver)
+        PayloadTypeRegistry.playC2S().register(CastSpellC2SPayload.TYPE, CastSpellC2SPayload.CODEC);
+
+        // enregistre le handler server-side (PlayPayloadHandler<T>) -> (payload, context) -> { ... }
+        ServerPlayNetworking.registerGlobalReceiver(CastSpellC2SPayload.TYPE, (payload, context) -> {
+            // context.player() donne un ServerPlayerEntity
+            var player = context.player();
+            if (player == null) return; // précaution
+            var world = player.getServerWorld();
+
+            // ici tu choisis ton sort par ID (ex : via un SpellRegistry)
+            var spell = ModSpellRegistry.get(payload.spellId()); // implémente-toi SpellRegistry
+            if (spell != null && spell.canCast(player)) {
+                spell.tryCast(world, player);
+            }
+        });
+
+         */
 
 	}
 }

@@ -1,4 +1,4 @@
-package net.ocechat.tutorialmod.magic.casting;
+package net.ocechat.tutorialmod.util;
 
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.option.KeyBinding;
@@ -9,7 +9,6 @@ import org.lwjgl.glfw.GLFW;
 public class ModKeyBinding {
 
     public static final KeyBinding SPAWN_FIRE_IN_STRAIGHT_LIGNE = registerKeyBinding("spawn_fire_in_straight_ligne", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_4);
-
 
 
 
