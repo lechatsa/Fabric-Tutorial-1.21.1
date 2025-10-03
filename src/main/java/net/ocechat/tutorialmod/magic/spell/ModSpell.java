@@ -12,14 +12,15 @@ public abstract class ModSpell {
     private final int manaCost;    // Coût en mana
     private final int cooldown;    // Temps de recharge en ticks (20 ticks = 1 sec)
     private final KeyBinding keyBinding;
-
+    private final boolean isAffectedByGravity;
 
     private int currentCooldown;   // Cooldown restant
 
-    public ModSpell(String id, int manaCost, int cooldown, KeyBinding keyBinding) {
+    public ModSpell(String id, int manaCost, int cooldown, KeyBinding keyBinding, boolean isAffectedByGravity) {
         this.id = id;
         this.manaCost = manaCost;
         this.cooldown = cooldown;
+        this.isAffectedByGravity = isAffectedByGravity;
         this.currentCooldown = 0;
         this.keyBinding = keyBinding;
     }
@@ -64,6 +65,10 @@ public abstract class ModSpell {
 
     public KeyBinding getKeyBinding() {
         return keyBinding;
+    }
+
+    public boolean isAffectedByGravity() {
+        return isAffectedByGravity;
     }
 }
 

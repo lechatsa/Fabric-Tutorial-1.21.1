@@ -10,7 +10,7 @@ import net.ocechat.tutorialmod.util.ModKeyBinding;
 
 public class FireballSpell extends ModSpell{
     public FireballSpell() {
-        super("fireball", 0, 0, ModKeyBinding.SPAWN_FIRE_IN_STRAIGHT_LIGNE);
+        super("fireball", 0, 0, ModKeyBinding.SPAWN_FIRE_IN_STRAIGHT_LIGNE, true);
     }
 
     @Override
@@ -23,7 +23,15 @@ public class FireballSpell extends ModSpell{
         fireball.setPos(MathHelper.getPointInFront(player, 1f).x , MathHelper.getPointInFront(player, 1f).y + 1 , MathHelper.getPointInFront(player, 1f).z);
         fireball.setVelocity(vector.multiply(0f));
 
-
         world.spawnEntity(fireball);
+
+
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+
     }
 }
