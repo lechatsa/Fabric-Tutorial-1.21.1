@@ -13,27 +13,28 @@ public abstract class ModSpell {
     private final int cooldown;    // Temps de recharge en ticks (20 ticks = 1 sec)
     private final KeyBinding keyBinding;
     private final boolean isAffectedByGravity;
+    private int lifespan;
+
+
 
     private int currentCooldown;   // Cooldown restant
 
-    public ModSpell(String id, int manaCost, int cooldown, KeyBinding keyBinding, boolean isAffectedByGravity) {
+    public ModSpell(String id, int manaCost, int cooldown, KeyBinding keyBinding, boolean isAffectedByGravity, int lifespan) {
         this.id = id;
         this.manaCost = manaCost;
         this.cooldown = cooldown;
         this.isAffectedByGravity = isAffectedByGravity;
+        this.lifespan = lifespan;
         this.currentCooldown = 0;
         this.keyBinding = keyBinding;
     }
 
 
-
     public abstract void cast(World world, PlayerEntity player);
-
 
     public boolean canCast(PlayerEntity player) {
         return currentCooldown <= 0;
     }
-
 
     public void tryCast(World world, PlayerEntity player) {
         if (canCast(player)) {
@@ -49,26 +50,33 @@ public abstract class ModSpell {
         if (currentCooldown > 0) {
             currentCooldown--;
         }
+
+        if (lifespan > 0) {
+            lifespan--;
+        } else {
+
+        }
     }
 
-    public String getId() {
-        return id;
-    }
 
-    public int getManaCost() {
-        return manaCost;
-    }
+    public String getId() {return id;}
 
-    public int getCooldown() {
-        return cooldown;
-    }
+    public int getManaCost() {return manaCost;}
 
-    public KeyBinding getKeyBinding() {
-        return keyBinding;
-    }
+    public int getCooldown() {return cooldown;}
 
-    public boolean isAffectedByGravity() {
-        return isAffectedByGravity;
-    }
+    public KeyBinding getKeyBinding() {return keyBinding;}
+
+    public int getLifespan() {return lifespan;}
+
+    public boolean isAffectedByGravity() {return isAffectedByGravity;}
+
+
+    public int getCurrentCooldown() {return currentCooldown;}
+
+    public void setCurrentCooldown(int currentCooldown) {this.currentCooldown = currentCooldown;}
+
+    public void setLifespan(int lifespan) {this.lifespan = lifespan;}
+
+
 }
-

@@ -10,7 +10,14 @@ import net.ocechat.tutorialmod.util.ModKeyBinding;
 
 public class FireballSpell extends ModSpell{
     public FireballSpell() {
-        super("fireball", 0, 0, ModKeyBinding.SPAWN_FIRE_IN_STRAIGHT_LIGNE, true);
+        super(
+                "fireball",
+                0,
+                0,
+                ModKeyBinding.SPAWN_FIRE_IN_STRAIGHT_LIGNE,
+                true,
+
+                );
     }
 
     @Override
