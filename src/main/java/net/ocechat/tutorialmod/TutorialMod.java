@@ -16,6 +16,8 @@ import net.ocechat.tutorialmod.component.ModDataComponentTypes;
 import net.ocechat.tutorialmod.enchantment.ModEnchantmentEffects;
 import net.ocechat.tutorialmod.item.ModItemGroups;
 import net.ocechat.tutorialmod.item.ModItems;
+import net.ocechat.tutorialmod.magic.spell.ActivesSpells;
+import net.ocechat.tutorialmod.magic.spell.SpellInstance;
 import net.ocechat.tutorialmod.util.ModKeyBinding;
 import net.ocechat.tutorialmod.magic.casting.KeyInputHandler;
 import net.ocechat.tutorialmod.magic.casting.SpellCastPayload;
@@ -49,15 +51,6 @@ public class TutorialMod implements ModInitializer {
 
         PlayerBlockBreakEvents.BEFORE.register(new HammerUsageEvent());
 
-        AttackEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
-
-            if (player.getMainHandStack().getItem() == Items.IRON_BARS && entity instanceof SheepEntity sheepEntity && !world.isClient) {
-                player.getMainHandStack().decrement(1);
-                sheepEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 600, 6));
-            return ActionResult.PASS;
-            }
-            return ActionResult.PASS;
-        });
 
         ModSpellRegistry.registerAll();
 
@@ -68,26 +61,7 @@ public class TutorialMod implements ModInitializer {
 
         SpellCastNetworking.registerC2SPackets();
 
-
-        /*
-        // enregistre le codec (obligatoire AVANT d'enregistrer le receiver)
-        PayloadTypeRegistry.playC2S().register(CastSpellC2SPayload.TYPE, CastSpellC2SPayload.CODEC);
-
-        // enregistre le handler server-side (PlayPayloadHandler<T>) -> (payload, context) -> { ... }
-        ServerPlayNetworking.registerGlobalReceiver(CastSpellC2SPayload.TYPE, (payload, context) -> {
-            // context.player() donne un ServerPlayerEntity
-            var player = context.player();
-            if (player == null) return; // précaution
-            var world = player.getServerWorld();
-
-            // ici tu choisis ton sort par ID (ex : via un SpellRegistry)
-            var spell = ModSpellRegistry.get(payload.spellId()); // implémente-toi SpellRegistry
-            if (spell != null && spell.canCast(player)) {
-                spell.tryCast(world, player);
-            }
-        });
-
-         */
+        ActivesSpells.register();
 
 	}
 }

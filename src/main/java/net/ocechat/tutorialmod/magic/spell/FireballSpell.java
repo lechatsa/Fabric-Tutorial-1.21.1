@@ -23,12 +23,12 @@ public class FireballSpell extends ModSpell{
     @Override
     public void cast(World world, PlayerEntity player) {
         Vec3d vector = player.getRotationVector();
-        FireballEntity fireball = new FireballEntity(world, player, vector, 3
-        );
+        FireballEntity fireball = new FireballEntity(world, player, vector, 3);
 
+        ActivesSpells.addSpell(new SpellInstance(player, this, fireball));
 
         fireball.setPos(MathHelper.getPointInFront(player, 1f).x , MathHelper.getPointInFront(player, 1f).y + 1 , MathHelper.getPointInFront(player, 1f).z);
-        fireball.setVelocity(vector.multiply(0f));
+        fireball.setVelocity(vector.multiply(3f));
 
         world.spawnEntity(fireball);
 
@@ -36,9 +36,31 @@ public class FireballSpell extends ModSpell{
     }
 
     @Override
-    public void tick() {
-        super.tick();
+    public void tick(SpellInstance instance) {
+        if (!(instance.getAttachedElement() instanceof FireballEntity fireball)) return;
 
 
+        if (this.isAffectedByGravity()) {
+            Vec3d velocity = fireball.getVelocity();
+            fireball.setVelocity(MathHelper.addGravitation(velocity, MathHelper.vectorGravitation(-0.04)));
+
+        }
+
+
+
+
+
+        if (!fireball.isAlive()) {
+            fireball.discard();
+        }
     }
+
+
+    @Override
+    public boolean isAffectedByGravity() {
+        return true;
+    }
+
+
+
 }

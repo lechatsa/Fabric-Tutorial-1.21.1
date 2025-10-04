@@ -5,6 +5,10 @@ import net.minecraft.util.math.Vec3d;
 
 public class MathHelper {
 
+    public static Vec3d vectorGravitation(double gravitation) {
+        return new Vec3d(0, gravitation, 0);
+    }
+
 
     /// Give a New Vector / Position in front of the player based on a distance from him.
     public static Vec3d getPointInFront(PlayerEntity player, double distance) {
@@ -17,7 +21,7 @@ public class MathHelper {
 
     ///  Give a New Vector | Useful to simulate Trajectories.
     public static Vec3d addGravitation(Vec3d vectorOrigin, Vec3d vectorGravitation) {
-        return vectorOrigin.subtract(vectorGravitation);
+        return vectorOrigin.add(vectorGravitation);
     }
 
 

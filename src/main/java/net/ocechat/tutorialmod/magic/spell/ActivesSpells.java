@@ -4,35 +4,38 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.lang.reflect.Type;
+import java.util.*;
 
 public class ActivesSpells {
 
-    private static final Map<UUID, List<ModSpell>> ActiveSpells = new HashMap<>();
+    private static final List<SpellInstance> ACTIVE_SPELLS = new ArrayList<>();
 
-    public static void registerActivesSpells() {
+    public static void register() {
         ServerTickEvents.END_SERVER_TICK.register(server -> {
+
+            List<SpellInstance> toRemove = new ArrayList<>();
+
             for (ServerWorld world : server.getWorlds()) {
-                for (PlayerEntity player : world.getPlayers()) {
-                    List<ModSpell> ActiveSpellsAssociatedToPlayer = ActiveSpells.get(player.getUuid());
-                    if (ActiveSpellsAssociatedToPlayer != null) {
-                        ActiveSpellsAssociatedToPlayer.removeIf(modSpell -> {
-                           modSpell.tick();
-                           return modSpell.getIs;
-                        });
+                for (SpellInstance instance : ACTIVE_SPELLS) {
+                    if (instance.getCaster().getWorld() != world) continue;
+
+                    instance.tick();
+
+                    if (instance.isExpire()) {
+                        if (instance.getAttachedElement() != null)
+                            instance.getAttachedElement().discard();
+                        toRemove.add(instance);
                     }
                 }
             }
 
-
-
-
+            ACTIVE_SPELLS.removeAll(toRemove);
         });
     }
 
-
-
+    public static void addSpell(SpellInstance instance) {
+        ACTIVE_SPELLS.add(instance);
+    }
 }
+

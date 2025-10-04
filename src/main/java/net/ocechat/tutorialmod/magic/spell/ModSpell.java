@@ -9,26 +9,29 @@ import net.minecraft.text.Text;
 public abstract class ModSpell {
 
     private final String id;
-    private final int manaCost;
-    private final int cooldown;
-    private final KeyBinding keyBinding;
+    private int manaCost;
+    private int cooldown;
+    private KeyBinding keyBinding;
     private boolean isAffectedByGravity;
-    private int lifespan;
+    private final int lifetime;
 
     private int currentCooldown;
-    private boolean isExpire;
 
-    public ModSpell(String id, int manaCost, int cooldown, KeyBinding keyBinding, boolean isAffectedByGravity, int lifespan) {
+
+
+
+
+
+    public ModSpell(String id, int manaCost, int cooldown, KeyBinding keyBinding, boolean isAffectedByGravity, int lifetime) {
 
         this.id = id;
         this.manaCost = manaCost;
         this.cooldown = cooldown;
         this.isAffectedByGravity = isAffectedByGravity;
-        this.lifespan = lifespan;
+        this.lifetime = lifetime;
 
         this.keyBinding = keyBinding;
 
-        this.isExpire = false;
         this.currentCooldown = 0;
 
     }
@@ -50,17 +53,7 @@ public abstract class ModSpell {
         }
     }
 
-    public void tick() {
-        if (currentCooldown > 0) {
-            currentCooldown--;
-        }
-
-        if (lifespan > 0) {
-            lifespan--;
-        } else {
-
-        }
-    }
+    public abstract void tick(SpellInstance instance);
 
 
     public String getId() { return id;}
@@ -71,20 +64,33 @@ public abstract class ModSpell {
 
     public KeyBinding getKeyBinding() { return keyBinding; }
 
-    public int getLifespan() { return lifespan; }
+    public int getLifetime() { return lifetime; }
 
     public int getCurrentCooldown() { return currentCooldown; }
 
     public boolean isAffectedByGravity() { return isAffectedByGravity; }
 
-    public boolean isExpire() { return isExpire; }
 
 
-    public void setCurrentCooldown(int currentCooldown) {this.currentCooldown = currentCooldown; }
+    public void setManaCost(int manaCost) {
+        this.manaCost = manaCost;
+    }
 
-    public void setLifespan(int lifespan) {this.lifespan = lifespan;}
+    public void setCooldown(int cooldown) {
+        this.cooldown = cooldown;
+    }
 
-    public void setExpire(boolean expire) { isExpire = expire; }
+    public void setKeyBinding(KeyBinding keyBinding) {
+        this.keyBinding = keyBinding;
+    }
 
-    public void setAffectedByGravity(boolean affectedByGravity) { this.isAffectedByGravity = affectedByGravity; }
+    public void setCurrentCooldown(int currentCooldown) {
+        this.currentCooldown = currentCooldown;
+    }
+
+    public void setAffectedByGravity(boolean affectedByGravity) {
+        this.isAffectedByGravity = affectedByGravity;
+    }
+
+
 }
