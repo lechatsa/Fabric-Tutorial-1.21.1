@@ -16,7 +16,7 @@ public class FireballSpell extends ModSpell{
                 0,
                 ModKeyBinding.SPAWN_FIRE_IN_STRAIGHT_LIGNE,
                 true,
-
+                80
                 );
     }
 

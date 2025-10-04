@@ -21,7 +21,7 @@ public class ActivesSpells {
                     if (ActiveSpellsAssociatedToPlayer != null) {
                         ActiveSpellsAssociatedToPlayer.removeIf(modSpell -> {
                            modSpell.tick();
-                           return modSpell.isExpire;
+                           return modSpell.getIs;
                         });
                     }
                 }
