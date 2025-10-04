@@ -2,26 +2,16 @@ package net.ocechat.tutorialmod;
 
 import net.fabricmc.api.ModInitializer;
 
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
-import net.minecraft.client.render.entity.DragonFireballEntityRenderer;
-import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.entity.passive.SheepEntity;
-import net.minecraft.item.Items;
-import net.minecraft.util.ActionResult;
 import net.ocechat.tutorialmod.block.ModBlocks;
 import net.ocechat.tutorialmod.component.ModDataComponentTypes;
 import net.ocechat.tutorialmod.enchantment.ModEnchantmentEffects;
 import net.ocechat.tutorialmod.item.ModItemGroups;
 import net.ocechat.tutorialmod.item.ModItems;
 import net.ocechat.tutorialmod.magic.spell.ActivesSpells;
-import net.ocechat.tutorialmod.magic.spell.SpellInstance;
-import net.ocechat.tutorialmod.magic.spell.entity.ModEntities;
+import net.ocechat.tutorialmod.entity.ModEntities;
 import net.ocechat.tutorialmod.util.ModKeyBinding;
 import net.ocechat.tutorialmod.magic.casting.KeyInputHandler;
 import net.ocechat.tutorialmod.magic.casting.SpellCastPayload;
@@ -41,7 +31,7 @@ public class TutorialMod implements ModInitializer {
 	@Override
 	public void onInitialize() {
 
-        EntityRendererRegistry.register(ModEntities.FIREBALL_SPELL_ENTITY, DragonFireballEntityRenderer::new);
+        //EntityRendererRegistry.register(ModEntities.FIREBALL_SPELL_ENTITY, DragonFireballEntityRenderer::new);
         ModEntities.registerEntities();
 
         ModItems.registerModItems();

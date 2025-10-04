@@ -1,4 +1,4 @@
-package net.ocechat.tutorialmod.magic.spell.entity;
+package net.ocechat.tutorialmod.entity;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
@@ -6,6 +6,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.ocechat.tutorialmod.TutorialMod;
+import net.ocechat.tutorialmod.entity.custom.FireballSpellEntity;
 
 public class ModEntities {
 
