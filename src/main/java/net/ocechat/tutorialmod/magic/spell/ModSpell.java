@@ -44,9 +44,9 @@ public abstract class ModSpell {
         if (canCast(player)) {
             cast(world, player);
             currentCooldown = cooldown; // Réinitialise le cooldown
-            player.sendMessage(Text.literal("Vous lancez le sort : " + id), true);
+            player.sendMessage(Text.literal("You cast the Spell : " + id), true);
         } else {
-            player.sendMessage(Text.literal("Sort en recharge !"), true);
+            player.sendMessage(Text.literal("The Spell is in cooldown !"), true);
         }
     }
 
