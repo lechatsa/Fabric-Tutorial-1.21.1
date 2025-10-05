@@ -2,14 +2,11 @@ package net.ocechat.tutorialmod.entity.client.fireball_spell_entity;
 
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import net.ocechat.tutorialmod.TutorialMod;
-import net.ocechat.tutorialmod.entity.ModEntities;
 import net.ocechat.tutorialmod.entity.custom.FireballSpellEntity;
 
 // Made with Blockbench 4.12.6

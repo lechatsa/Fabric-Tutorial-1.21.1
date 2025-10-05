@@ -2,16 +2,13 @@ package net.ocechat.tutorialmod;
 
 import net.fabricmc.api.ModInitializer;
 
-import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.ocechat.tutorialmod.block.ModBlocks;
 import net.ocechat.tutorialmod.component.ModDataComponentTypes;
 import net.ocechat.tutorialmod.enchantment.ModEnchantmentEffects;
-import net.ocechat.tutorialmod.entity.client.fireball_spell_entity.FireballSpellEntityModel;
-import net.ocechat.tutorialmod.entity.client.fireball_spell_entity.FireballSpellEntityRenderer;
 import net.ocechat.tutorialmod.item.ModItemGroups;
 import net.ocechat.tutorialmod.item.ModItems;
 import net.ocechat.tutorialmod.magic.spell.ActivesSpells;

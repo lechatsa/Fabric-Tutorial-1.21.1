@@ -30,11 +30,11 @@ public class FireballSpell extends ModSpell{
         ActivesSpells.addSpell(new SpellInstance(player, this, fireball));
 
         fireball.setPos(MathHelper.getPointInFront(player, 1f).x , MathHelper.getPointInFront(player, 1f).y + 1 , MathHelper.getPointInFront(player, 1f).z);
-        fireball.setVelocity(vector.multiply(3f));
+        fireball.setVelocity(vector.multiply(1.5f));
+
 
         world.spawnEntity(fireball);
-
-
+        fireball.setOnFire(false);
     }
 
     @Override

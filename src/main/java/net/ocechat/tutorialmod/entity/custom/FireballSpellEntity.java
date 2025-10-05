@@ -19,8 +19,9 @@ public class FireballSpellEntity extends FireballEntity {
         super.tick();
         Vec3d velocity = this.getVelocity();
 
-        this.setVelocity(velocity.multiply(3f));
+
         this.setVelocity(MathHelper.addGravitation(velocity, MathHelper.vectorGravitation(-0.04)));
+
 
         this.animationState.startIfNotRunning(this.age);
 
