@@ -1,0 +1,46 @@
+package net.ocechat.tutorialmod.entity.client.fireball_spell_entity;
+
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.screen.Overlay;
+import net.minecraft.client.render.OverlayTexture;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.MathHelper;
+import net.ocechat.tutorialmod.TutorialMod;
+import net.ocechat.tutorialmod.entity.custom.FireballSpellEntity;
+
+import java.util.Objects;
+
+import static net.minecraft.client.render.entity.LivingEntityRenderer.getOverlay;
+
+
+@Environment(EnvType.CLIENT)
+public class FireballSpellEntityRenderer extends EntityRenderer<FireballSpellEntity> {
+
+    private final FireballSpellEntityModel model;
+
+    public FireballSpellEntityRenderer(EntityRendererFactory.Context context) {
+        super(context);
+        this.model = new FireballSpellEntityModel(context.getPart(FireballSpellEntityModel.FIREBALL_SPELL));
+    }
+
+    @Override
+    public void render(FireballSpellEntity entity, float entityYaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+
+        this.model.setAngles(entity, 1, 1, entity.age, 1, 1); // ou une méthode custom si tu en as une
+        this.model.render(matrices, vertexConsumers.getBuffer(model.getLayer(getTexture(entity))), light, OverlayTexture.DEFAULT_UV);
+
+        super.render(entity, entityYaw, tickDelta, matrices, vertexConsumers, light);
+    }
+
+    @Override
+    public Identifier getTexture(FireballSpellEntity entity) {
+        return Identifier.of(TutorialMod.MOD_ID, "textures/entity/fireball_spell_entity.png");
+    }
+}

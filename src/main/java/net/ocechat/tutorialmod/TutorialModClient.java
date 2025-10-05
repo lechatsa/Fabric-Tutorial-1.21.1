@@ -2,8 +2,13 @@ package net.ocechat.tutorialmod;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.ocechat.tutorialmod.block.ModBlocks;
+import net.ocechat.tutorialmod.entity.ModEntities;
+import net.ocechat.tutorialmod.entity.client.fireball_spell_entity.FireballSpellEntityModel;
+import net.ocechat.tutorialmod.entity.client.fireball_spell_entity.FireballSpellEntityRenderer;
 import net.ocechat.tutorialmod.magic.casting.KeyInputHandler;
 import net.ocechat.tutorialmod.util.ModKeyBinding;
 import net.ocechat.tutorialmod.util.ModModelPredicates;
@@ -18,5 +23,9 @@ public class TutorialModClient implements ClientModInitializer {
 
         ModKeyBinding.registerModKeyBinding();
         KeyInputHandler.register();
+
+        EntityModelLayerRegistry.registerModelLayer(FireballSpellEntityModel.FIREBALL_SPELL, FireballSpellEntityModel::getTexturedModelData);
+        EntityRendererRegistry.register(ModEntities.FIREBALL_SPELL_ENTITY, FireballSpellEntityRenderer::new);
+
     }
 }

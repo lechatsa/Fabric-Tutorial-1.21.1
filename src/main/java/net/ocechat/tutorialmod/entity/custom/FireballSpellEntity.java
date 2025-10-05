@@ -9,18 +9,8 @@ import net.ocechat.tutorialmod.MathHelper;
 
 public class FireballSpellEntity extends FireballEntity {
 
-    public final AnimationState idleanimationState = new AnimationState();
-    private int idleAnimationTimeout = 0;
+    public final AnimationState animationState = new AnimationState();
 
-
-
-    private void setupAnimationStates() {
-        if (this.idleAnimationTimeout <= 0) {
-            this.idleAnimationTimeout = 95;
-            this.idleanimationState.start(this.age);
-
-        }
-    }
 
 
 
@@ -32,9 +22,7 @@ public class FireballSpellEntity extends FireballEntity {
         this.setVelocity(velocity.multiply(3f));
         this.setVelocity(MathHelper.addGravitation(velocity, MathHelper.vectorGravitation(-0.04)));
 
-        if (this.getWorld().isClient) {
-            this.setupAnimationStates();
-        }
+        this.animationState.startIfNotRunning(this.age);
 
 
     }
