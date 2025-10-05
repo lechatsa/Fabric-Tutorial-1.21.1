@@ -24,18 +24,32 @@ public class FireballSpell extends ModSpell{
 
     @Override
     public void cast(World world, PlayerEntity player) {
-        Vec3d vector = player.getRotationVector();
-        FireballSpellEntity fireball = new FireballSpellEntity(ModEntities.FIREBALL_SPELL_ENTITY, world);
+        // Direction du regard
+        Vec3d look = player.getRotationVec(1.0F);
 
+        // Position des yeux du joueur
+        Vec3d eyePos = player.getEyePos();
+
+        // Distance devant les yeux (0.6 = juste devant la tête)
+        Vec3d spawnPos = eyePos.add(look.multiply(1));
+
+        // Création de la boule de feu
+        FireballSpellEntity fireball = new FireballSpellEntity(ModEntities.FIREBALL_SPELL_ENTITY, world);
         ActivesSpells.addSpell(new SpellInstance(player, this, fireball));
 
-        fireball.setPos(MathHelper.getPointInFront(player, 1f).x , MathHelper.getPointInFront(player, 1f).y + 1 , MathHelper.getPointInFront(player, 1f).z);
-        fireball.setVelocity(vector.multiply(1.5f));
+        // Placement
+        fireball.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
 
+        // Direction + vitesse
+        fireball.setVelocity(look.multiply(1.5f));
 
-        world.spawnEntity(fireball);
+        // Empêche la boule de feu de brûler
         fireball.setOnFire(false);
+
+        // Spawn dans le monde
+        world.spawnEntity(fireball);
     }
+
 
     @Override
     public void tick(SpellInstance instance) {
