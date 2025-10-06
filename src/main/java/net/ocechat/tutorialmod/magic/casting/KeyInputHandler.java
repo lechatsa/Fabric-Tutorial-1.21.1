@@ -10,8 +10,11 @@ public class KeyInputHandler {
 
     public static void register() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            // Exemple : touche "fireball"
+
             while (ModKeyBinding.SPAWN_FIRE_IN_STRAIGHT_LIGNE.wasPressed()) {
+
+                
+
                 SpellCastNetworking.sendSpell(Identifier.of(TutorialMod.MOD_ID, "fireball"));
             }
 

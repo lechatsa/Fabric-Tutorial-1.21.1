@@ -1,9 +1,9 @@
-package net.ocechat.tutorialmod.magic.spell;
+package net.ocechat.tutorialmod.magic.spell.utility;
 
 import net.minecraft.util.Identifier;
 import net.ocechat.tutorialmod.TutorialMod;
-import net.ocechat.tutorialmod.magic.spell.FireballSpell;
 import net.ocechat.tutorialmod.magic.spell.ModSpell;
+import net.ocechat.tutorialmod.magic.spell.substantial.FireballSpell;
 
 import java.util.HashMap;
 import java.util.Map;

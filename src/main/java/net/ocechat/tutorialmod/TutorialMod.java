@@ -11,7 +11,7 @@ import net.ocechat.tutorialmod.component.ModDataComponentTypes;
 import net.ocechat.tutorialmod.enchantment.ModEnchantmentEffects;
 import net.ocechat.tutorialmod.item.ModItemGroups;
 import net.ocechat.tutorialmod.item.ModItems;
-import net.ocechat.tutorialmod.magic.spell.ActivesSpells;
+import net.ocechat.tutorialmod.magic.spell.utility.ActivesSpells;
 import net.ocechat.tutorialmod.entity.ModEntities;
 import net.ocechat.tutorialmod.util.ModKeyBinding;
 import net.ocechat.tutorialmod.magic.casting.KeyInputHandler;
@@ -21,7 +21,7 @@ import net.ocechat.tutorialmod.sound.ModSound;
 import net.ocechat.tutorialmod.util.HammerUsageEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import net.ocechat.tutorialmod.magic.spell.ModSpellRegistry;
+import net.ocechat.tutorialmod.magic.spell.utility.ModSpellRegistry;
 
 
 

@@ -5,6 +5,7 @@ import net.minecraft.world.World;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
+import net.ocechat.tutorialmod.magic.spell.utility.SpellInstance;
 
 public abstract class ModSpell {
 

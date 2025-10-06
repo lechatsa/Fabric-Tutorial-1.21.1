@@ -4,7 +4,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.util.Identifier;
 import net.ocechat.tutorialmod.magic.casting.SpellCastPayload;
-import net.ocechat.tutorialmod.magic.spell.ModSpellRegistry;
+import net.ocechat.tutorialmod.magic.spell.utility.ModSpellRegistry;
 
 public class SpellCastNetworking {
     // Envoi côté client

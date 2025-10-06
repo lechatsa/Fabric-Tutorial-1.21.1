@@ -1,10 +1,8 @@
-package net.ocechat.tutorialmod.magic.spell;
+package net.ocechat.tutorialmod.magic.spell.utility;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 
-import java.lang.reflect.Type;
 import java.util.*;
 
 public class ActivesSpells {

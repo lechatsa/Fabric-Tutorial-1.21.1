@@ -1,7 +1,8 @@
-package net.ocechat.tutorialmod.magic.spell;
+package net.ocechat.tutorialmod.magic.spell.utility;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.ocechat.tutorialmod.magic.spell.ModSpell;
 
 public class SpellInstance {
     private final PlayerEntity caster;

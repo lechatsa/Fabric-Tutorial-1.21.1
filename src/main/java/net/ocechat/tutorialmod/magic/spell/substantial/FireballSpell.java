@@ -1,16 +1,18 @@
-package net.ocechat.tutorialmod.magic.spell;
+package net.ocechat.tutorialmod.magic.spell.substantial;
 
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.ocechat.tutorialmod.MathHelper;
 import net.ocechat.tutorialmod.entity.custom.FireballSpellEntity;
 import net.ocechat.tutorialmod.entity.ModEntities;
+import net.ocechat.tutorialmod.magic.spell.utility.ActivesSpells;
+import net.ocechat.tutorialmod.magic.spell.ModSpell;
+import net.ocechat.tutorialmod.magic.spell.utility.SpellInstance;
 import net.ocechat.tutorialmod.util.ModKeyBinding;
 
-public class FireballSpell extends ModSpell{
+public class FireballSpell extends ModSpell {
     public FireballSpell() {
         super(
                 "fireball",
