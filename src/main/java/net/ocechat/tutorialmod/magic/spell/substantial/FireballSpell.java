@@ -5,7 +5,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.ocechat.tutorialmod.entity.custom.FireballSpellEntity;
+import net.ocechat.tutorialmod.entity.custom.fireball_spell_entity.FireballSpellEntity;
 import net.ocechat.tutorialmod.entity.ModEntities;
 import net.ocechat.tutorialmod.magic.spell.utility.ActivesSpells;
 import net.ocechat.tutorialmod.magic.spell.ModSpell;

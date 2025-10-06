@@ -1,4 +1,4 @@
-package net.ocechat.tutorialmod.entity.client.fireball_spell_entity;
+package net.ocechat.tutorialmod.entity.custom.fireball_spell_entity;
 
 import net.minecraft.client.render.entity.animation.Animation;
 import net.minecraft.client.render.entity.animation.AnimationHelper;

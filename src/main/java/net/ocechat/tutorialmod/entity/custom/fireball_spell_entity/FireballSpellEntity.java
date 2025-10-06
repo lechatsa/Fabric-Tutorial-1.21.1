@@ -1,4 +1,4 @@
-package net.ocechat.tutorialmod.entity.custom;
+package net.ocechat.tutorialmod.entity.custom.fireball_spell_entity;
 
 import net.minecraft.entity.*;
 import net.minecraft.entity.data.DataTracker;

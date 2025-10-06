@@ -7,7 +7,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.ocechat.tutorialmod.TutorialMod;
-import net.ocechat.tutorialmod.entity.custom.FireballSpellEntity;
+import net.ocechat.tutorialmod.entity.custom.fireball_spell_entity.FireballSpellEntity;
 
 
 public class ModEntities {

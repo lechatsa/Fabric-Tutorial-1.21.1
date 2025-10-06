@@ -1,4 +1,4 @@
-package net.ocechat.tutorialmod.entity.client.fireball_spell_entity;
+package net.ocechat.tutorialmod.entity.custom.fireball_spell_entity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -12,9 +12,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 import net.ocechat.tutorialmod.TutorialMod;
-import net.ocechat.tutorialmod.entity.custom.FireballSpellEntity;
-
-
 
 
 @Environment(EnvType.CLIENT)
