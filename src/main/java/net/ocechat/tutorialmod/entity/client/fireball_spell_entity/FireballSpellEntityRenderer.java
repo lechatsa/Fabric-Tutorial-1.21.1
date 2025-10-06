@@ -2,24 +2,19 @@ package net.ocechat.tutorialmod.entity.client.fireball_spell_entity;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.screen.Overlay;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.ocechat.tutorialmod.TutorialMod;
 import net.ocechat.tutorialmod.entity.custom.FireballSpellEntity;
 
-import java.util.Objects;
 
-import static net.minecraft.client.render.entity.LivingEntityRenderer.getOverlay;
 
 
 @Environment(EnvType.CLIENT)
