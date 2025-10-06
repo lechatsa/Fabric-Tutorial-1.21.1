@@ -2,20 +2,14 @@ package net.ocechat.tutorialmod.entity.custom;
 
 import net.minecraft.entity.*;
 import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.projectile.FireballEntity;
+
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
-import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.tag.EntityTypeTags;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
 import net.ocechat.tutorialmod.MathHelper;
 
 public class FireballSpellEntity extends ProjectileEntity {
