@@ -8,16 +8,12 @@ import net.ocechat.tutorialmod.network.SpellCastNetworking;
 
 public class KeyInputHandler {
 
-    public static void register() {
+    public static void sendSpellWhenPressed() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
 
-            while (ModKeyBinding.SPAWN_FIRE_IN_STRAIGHT_LIGNE.wasPressed()) {
-
-                
-
+            while (ModKeyBinding.FIREBALL_SPELL.wasPressed()) {
                 SpellCastNetworking.sendSpell(Identifier.of(TutorialMod.MOD_ID, "fireball"));
             }
-
 
         });
     }

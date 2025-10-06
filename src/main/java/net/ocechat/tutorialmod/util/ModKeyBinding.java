@@ -8,7 +8,7 @@ import org.lwjgl.glfw.GLFW;
 
 public class ModKeyBinding {
 
-    public static final KeyBinding SPAWN_FIRE_IN_STRAIGHT_LIGNE = registerKeyBinding("spawn_fire_in_straight_ligne", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_4);
+    public static final KeyBinding FIREBALL_SPELL = registerKeyBinding("fireball_spell", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_4);
 
 
 

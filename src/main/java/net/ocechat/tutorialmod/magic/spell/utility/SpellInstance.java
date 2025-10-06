@@ -41,11 +41,7 @@ public class SpellInstance {
 
     public boolean isExpire() {
         boolean expire;
-        if (lifetime < 0) {
-            expire = true;
-        } else {
-            expire = false;
-        }
+        expire = lifetime < 0;
 
         return expire;
     }
@@ -59,4 +55,7 @@ public class SpellInstance {
         this.lifetime = lifetime;
     }
 
+    public void setExpire(boolean expire) {
+        isExpire = expire;
+    }
 }

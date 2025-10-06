@@ -13,16 +13,18 @@ import net.ocechat.tutorialmod.magic.spell.utility.SpellInstance;
 import net.ocechat.tutorialmod.util.ModKeyBinding;
 
 public class FireballSpell extends ModSpell {
+
+    public float timeToCharged;
+
+
     public FireballSpell() {
-        super(
-                "fireball",
-                0,
-                0,
-                ModKeyBinding.SPAWN_FIRE_IN_STRAIGHT_LIGNE,
-                true,
-                80
-                );
+        super("fireball", 0, 0, ModKeyBinding.FIREBALL_SPELL, true, 80);
+
+        this.timeToCharged = 60;
+
     }
+
+
 
     @Override
     public void cast(World world, PlayerEntity player) {
