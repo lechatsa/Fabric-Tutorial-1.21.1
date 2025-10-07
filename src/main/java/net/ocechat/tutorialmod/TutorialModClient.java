@@ -22,7 +22,10 @@ public class TutorialModClient implements ClientModInitializer {
         ModModelPredicates.registerModelPredicates();
 
         ModKeyBinding.registerModKeyBinding();
+
+
         KeyInputHandler.sendSpellWhenPressed();
+        KeyInputHandler.sendSpellWhenPressedAndRelease();
 
         EntityModelLayerRegistry.registerModelLayer(FireballSpellEntityModel.FIREBALL_SPELL, FireballSpellEntityModel::getTexturedModelData);
         EntityRendererRegistry.register(ModEntities.FIREBALL_SPELL_ENTITY, FireballSpellEntityRenderer::new);

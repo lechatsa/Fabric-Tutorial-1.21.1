@@ -6,7 +6,8 @@ import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 import net.ocechat.tutorialmod.TutorialMod;
 
-public record SpellCastPayload(Identifier spellId) implements CustomPayload {
+public record SpellCastPayload(Identifier spellId, boolean asCharged) implements CustomPayload {
+
     public static final Id<SpellCastPayload> ID =
             new Id<>(Identifier.of(TutorialMod.MOD_ID, "cast_spell"));
 
@@ -14,11 +15,12 @@ public record SpellCastPayload(Identifier spellId) implements CustomPayload {
             CustomPayload.codecOf(SpellCastPayload::write, SpellCastPayload::new);
 
     public SpellCastPayload(PacketByteBuf buf) {
-        this(Identifier.of(buf.readString()));
+        this(Identifier.of(buf.readString()), buf.getBoolean(2));
     }
 
     public void write(PacketByteBuf buf) {
         buf.writeString(spellId.toString());
+        buf.writeBoolean(asCharged);
     }
 
     @Override
