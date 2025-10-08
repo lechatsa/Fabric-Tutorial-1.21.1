@@ -15,7 +15,7 @@ public record SpellCastPayload(Identifier spellId, boolean asCharged) implements
             CustomPayload.codecOf(SpellCastPayload::write, SpellCastPayload::new);
 
     public SpellCastPayload(PacketByteBuf buf) {
-        this(Identifier.of(buf.readString()), buf.getBoolean(2));
+        this(Identifier.of(buf.readString()), buf.readBoolean());
     }
 
     public void write(PacketByteBuf buf) {

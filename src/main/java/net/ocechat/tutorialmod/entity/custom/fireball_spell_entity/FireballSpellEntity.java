@@ -10,7 +10,7 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
-import net.ocechat.tutorialmod.MathHelper;
+import net.ocechat.tutorialmod.OcechatMath;
 
 public class FireballSpellEntity extends ProjectileEntity {
 
@@ -28,7 +28,7 @@ public class FireballSpellEntity extends ProjectileEntity {
 
 
         Vec3d velocity = this.getVelocity();
-        velocity = MathHelper.addGravitation(velocity, MathHelper.vectorGravitation(-0.04));
+        velocity = OcechatMath.addGravitation(velocity, OcechatMath.vectorGravitation(-0.04));
         this.setVelocity(velocity);
         this.move(MovementType.SELF, velocity);
 

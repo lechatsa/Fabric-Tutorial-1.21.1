@@ -4,7 +4,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 
-public class MathHelper {
+public class OcechatMath {
 
     public static Vec3d vectorGravitation(double gravitation) {
         return new Vec3d(0, gravitation, 0);
@@ -43,6 +43,14 @@ public class MathHelper {
 
         return new Vec2f((float) xPrime, (float) yPrime);
 
+    }
+
+
+    public static double velocityToTime(int deltaTime) {
+
+        double k = 0.07675; // coefficient de croissance
+
+        return 2 * (1 - Math.exp(-k * deltaTime));
     }
 
 

@@ -6,6 +6,7 @@ import net.minecraft.world.World;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
 import net.ocechat.tutorialmod.magic.spell.utility.SpellInstance;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class ModSpell {
 
@@ -38,21 +39,13 @@ public abstract class ModSpell {
     }
 
 
-    public abstract void cast(World world, PlayerEntity player);
+    public abstract void cast(World world, PlayerEntity player, @Nullable int deltaTime);
 
     public boolean canCast(PlayerEntity player) {
         return currentCooldown <= 0;
     }
 
-    public void tryCast(World world, PlayerEntity player) {
-        if (canCast(player)) {
-            cast(world, player);
-            currentCooldown = cooldown; // Réinitialise le cooldown
-            player.sendMessage(Text.literal("You cast the Spell : " + id), true);
-        } else {
-            player.sendMessage(Text.literal("The Spell is in cooldown !"), true);
-        }
-    }
+
 
     public abstract void tick(SpellInstance instance);
 
@@ -68,6 +61,10 @@ public abstract class ModSpell {
     public int getLifetime() { return lifetime; }
 
     public int getCurrentCooldown() { return currentCooldown; }
+
+
+    public abstract void tryCast(World world, PlayerEntity player, @Nullable int deltaTime);
+
 
     public boolean isAffectedByGravity() { return isAffectedByGravity; }
 

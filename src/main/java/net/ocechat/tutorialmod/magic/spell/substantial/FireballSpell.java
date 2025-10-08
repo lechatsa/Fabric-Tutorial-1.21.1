@@ -3,8 +3,10 @@ package net.ocechat.tutorialmod.magic.spell.substantial;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FireballEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.ocechat.tutorialmod.OcechatMath;
 import net.ocechat.tutorialmod.entity.custom.fireball_spell_entity.FireballSpellEntity;
 import net.ocechat.tutorialmod.entity.ModEntities;
 import net.ocechat.tutorialmod.magic.spell.utility.ActivesSpells;
@@ -27,7 +29,7 @@ public class FireballSpell extends ModSpell {
 
 
     @Override
-    public void cast(World world, PlayerEntity player) {
+    public void cast(World world, PlayerEntity player, int deltaTime) {
         // Direction du regard
         Vec3d look = player.getRotationVec(1.0F);
 
@@ -45,7 +47,7 @@ public class FireballSpell extends ModSpell {
         fireball.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
 
         // Direction + vitesse
-        fireball.setVelocity(look.multiply(1.5f));
+        fireball.setVelocity(look.multiply(OcechatMath.velocityToTime(deltaTime)));
 
         // Empêche la boule de feu de brûler
         fireball.setOnFire(false);
@@ -55,15 +57,37 @@ public class FireballSpell extends ModSpell {
     }
 
 
+
     @Override
     public void tick(SpellInstance instance) {
         if (!(instance.getAttachedElement() instanceof FireballEntity fireball)) return;
 
         if (!fireball.isAlive()) {
             fireball.discard();
+        } else {
+            this.setCurrentCooldown(this.getCurrentCooldown() - 1);
         }
     }
 
+    @Override
+    public void tryCast(World world, PlayerEntity player, int deltaTime) {
+
+            if (canCast(player)) {
+                this.setCurrentCooldown(this.getCooldown());
+
+                cast(world, player, deltaTime);
+
+
+
+                player.sendMessage(Text.literal("You cast the Spell : " + this.getId()), true);
+
+            } else {
+
+                player.sendMessage(Text.literal("The Spell is in cooldown !"), true);
+
+            }
+
+    }
 
     @Override
     public boolean isAffectedByGravity() {

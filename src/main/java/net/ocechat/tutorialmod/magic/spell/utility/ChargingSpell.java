@@ -12,11 +12,8 @@ public class ChargingSpell {
     public static Map<UUID,chargingSpell> CHARGING_SPELL = new HashMap<>();
 
 
-    public static void removeSpellOfCharged(UUID player, ModSpell spell) {
-
-
-
-        CHARGING_SPELL.remove(player, new chargingSpell(spell, 0))
+    public static void removeSpellOfCharged(UUID player) {
+        CHARGING_SPELL.remove(player);
     }
 
     public static void setSpellToCharged(UUID player, ModSpell spell, int timeAtFirstCall) {

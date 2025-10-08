@@ -3,6 +3,8 @@ package net.ocechat.tutorialmod.magic.casting;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.util.Identifier;
 import net.ocechat.tutorialmod.TutorialMod;
+import net.ocechat.tutorialmod.magic.spell.utility.ChargingSpell;
+import net.ocechat.tutorialmod.magic.spell.utility.ModSpellRegistry;
 import net.ocechat.tutorialmod.util.ModKeyBinding;
 import net.ocechat.tutorialmod.network.SpellCastNetworking;
 
