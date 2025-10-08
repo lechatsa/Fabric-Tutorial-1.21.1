@@ -7,8 +7,6 @@ import java.util.*;
 public class ChargingSpell {
     public record ChargingData(ModSpell spell, int timeAtFirstCall) {}
 
-
-
     public static Map<UUID, ChargingData> CHARGING_SPELLS = new HashMap<>();
 
     public static ChargingData getCharging(UUID player) {
