@@ -43,7 +43,7 @@ public class SpellCastNetworking {
 
                     if (payload.asCharged()) { /// If the Payload say that the spell is charged, cast the Spell // If the Spell needs to charged, it'll be put in the ChargingSpell list.
 
-                        var chargingSpell = ChargingSpell.CHARGING_SPELL.get(playerId);
+                        var chargingSpell = ChargingSpell.CHARGING_SPELLS.get(playerId);
 
                         if (chargingSpell == null) { // Verification
                             TutorialMod.LOGGER.warn("Aucun sort chargé trouvé pour {}", player.getName().getString());
