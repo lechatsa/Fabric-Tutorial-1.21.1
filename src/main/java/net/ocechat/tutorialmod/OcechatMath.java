@@ -45,6 +45,17 @@ public class OcechatMath {
 
     }
 
+    public static double angleBetween(Vec2f a, Vec2f b) {
+        // produit scalaire et produit vectoriel 2D
+        double dot = a.x * b.x + a.y * b.y;
+        double det = a.x * b.y - a.y * b.x;
+
+        return Math.atan2(det, dot); // angle signé en radians (-π à +π)
+    }
+
+    public static Vec2f toVec2d(Vec3d vec3) {
+        return new Vec2f((float) vec3.x, (float) vec3.z); // on "écrase" la coordonnée Z
+    }
 
     public static double velocityToTime(int deltaTime) {
 
@@ -52,6 +63,7 @@ public class OcechatMath {
 
         return 2 * (1 - Math.exp(-k * deltaTime));
     }
+
 
 
 }
