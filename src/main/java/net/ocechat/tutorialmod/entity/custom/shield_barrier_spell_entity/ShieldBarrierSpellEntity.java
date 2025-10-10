@@ -1,5 +1,6 @@
 package net.ocechat.tutorialmod.entity.custom.shield_barrier_spell_entity;
 
+import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.DataTracker;
@@ -10,22 +11,49 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.TypeFilter;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Position;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.ocechat.tutorialmod.OcechatMath;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 
 public class ShieldBarrierSpellEntity extends ProjectileEntity {
     public ShieldBarrierSpellEntity(EntityType<? extends ProjectileEntity> entityType, World world) {
         super(entityType, world);
     }
 
+    public final AnimationState animationState = new AnimationState();
+
+
     @Override
     public void tick() {
         super.tick();
 
-        getWorld().collectEntitiesByType(TypeFilter.instanceOf(ProjectileEntity.class), );
-        if (this.collidesWith()) {}
+        int range = 5;
+        Predicate<ProjectileEntity> nearest = projectileEntity -> projectileEntity.squaredDistanceTo(this.getPos()) <= range * range;
+        List<ProjectileEntity> entityList = new ArrayList<>();
+        Box box = new Box(this.getBlockPos());
+
+        this.getWorld().collectEntitiesByType(
+                TypeFilter.instanceOf(ProjectileEntity.class),
+                box,
+                nearest,
+                entityList,
+                range
+                );
+        for (ProjectileEntity entity : entityList) {
+            if (this.collidesWith(entity)) {
+                onEntityHit(new EntityHitResult(entity));
+            }
+        }
+
+
+
+
     }
 
 

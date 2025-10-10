@@ -126,6 +126,7 @@ public class FireballSpellEntityModel extends SinglePartEntityModel<FireballSpel
     @Override
     public void setAngles(FireballSpellEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.getPart().traverse().forEach(ModelPart::resetTransform);
+
         this.animateMovement(FireballSpellEntityAnimation.FIREBALL_SPELL_ENTITY, ageInTicks, 1, 1, 1);
 
 
