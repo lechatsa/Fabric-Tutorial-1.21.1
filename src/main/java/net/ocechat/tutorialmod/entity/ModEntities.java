@@ -19,10 +19,6 @@ public class ModEntities {
     public static EntityType<ShieldBarrierSpellEntity> SHIELD_BARRIER_SPELL_ENTITY = registerEntity("shiel_barrier_spell_entity", ShieldBarrierSpellEntity::new, SpawnGroup.MISC, 4f, 2.4f, 100);
 
 
-
-
-
-
     /////////////////////////////////// Helper Methods to Register an Entity/EntitySpell ///////////////////////////////////
 
     public static <T extends Entity> EntityType<T> registerEntity(
@@ -50,15 +46,7 @@ public class ModEntities {
     public static void registerModEntities() {
         TutorialMod.LOGGER.info("Registering Mod Entities for " + TutorialMod.MOD_ID);
     }
-
-    public static
-
 }
 
-// EntityModelLayerRegistry.registerModelLayer(FireballSpellEntityModel.FIREBALL_SPELL, FireballSpellEntityModel::getTexturedModelData);
-//        EntityRendererRegistry.register(ModEntities.FIREBALL_SPELL_ENTITY, FireballSpellEntityRenderer::new);
-//
-//        EntityModelLayerRegistry.registerModelLayer(ShieldBarrierSpellEntityModel.SHIEL_BARRIER_SPELL, ShieldBarrierSpellEntityModel::getTexturedModelData);
-//        EntityRendererRegistry.register(ModEntities.SHIELD_BARRIER_SPELL_ENTITY, ShieldBarrierSpellEntityRenderer::new);
 
 
