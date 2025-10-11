@@ -41,10 +41,10 @@ public abstract class ModSpell {
     }
 
 
-    public abstract void cast(World world, PlayerEntity player, @Nullable int deltaTime);
+    public abstract void cast(World world, PlayerEntity player, @Nullable Integer deltaTime);
 
 
-    public abstract void tryCast(World world, PlayerEntity player, @Nullable int deltaTime);
+    public abstract void tryCast(World world, PlayerEntity player, @Nullable Integer deltaTime);
 
     public abstract void tick(SpellInstance instance);
 

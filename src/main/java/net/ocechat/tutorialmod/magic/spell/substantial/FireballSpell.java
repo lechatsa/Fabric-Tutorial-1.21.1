@@ -13,6 +13,7 @@ import net.ocechat.tutorialmod.magic.spell.utility.ActivesSpells;
 import net.ocechat.tutorialmod.magic.spell.ModSpell;
 import net.ocechat.tutorialmod.magic.spell.utility.SpellInstance;
 import net.ocechat.tutorialmod.util.ModKeyBinding;
+import org.jetbrains.annotations.Nullable;
 
 public class FireballSpell extends ModSpell {
 
@@ -29,7 +30,7 @@ public class FireballSpell extends ModSpell {
 
 
     @Override
-    public void cast(World world, PlayerEntity player, int deltaTime) {
+    public void cast(World world, PlayerEntity player, Integer deltaTime) {
         // Direction du regard
         Vec3d look = player.getRotationVec(1.0F);
 
@@ -71,7 +72,7 @@ public class FireballSpell extends ModSpell {
     }
 
     @Override
-    public void tryCast(World world, PlayerEntity player, int deltaTime) {
+    public void tryCast(World world, PlayerEntity player, @Nullable Integer deltaTime) {
 
             if (canCast(player)) {
                 this.setCurrentCooldown(this.getCooldown());

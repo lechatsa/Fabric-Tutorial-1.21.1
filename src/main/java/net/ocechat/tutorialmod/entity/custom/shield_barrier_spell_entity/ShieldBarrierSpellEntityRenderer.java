@@ -7,6 +7,7 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.RotationAxis;
 import net.ocechat.tutorialmod.TutorialMod;
 
 public class ShieldBarrierSpellEntityRenderer extends EntityRenderer<ShieldBarrierSpellEntity> {
@@ -22,6 +23,15 @@ public class ShieldBarrierSpellEntityRenderer extends EntityRenderer<ShieldBarri
     @Override
     public void render(ShieldBarrierSpellEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
         matrices.push();
+
+        float pitch = entity.getPitch();
+
+        // Rotation Y (axe vertical)
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-yaw));
+        // Rotation X (axe horizontal)
+        //matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-pitch));
+
+        matrices.translate(0,1,0);
 
         this.model.render(
                 matrices,

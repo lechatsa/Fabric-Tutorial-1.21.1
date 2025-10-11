@@ -1,10 +1,11 @@
 package net.ocechat.tutorialmod.magic.spell.substantial;
 
-import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.ocechat.tutorialmod.OcechatMath;
 import net.ocechat.tutorialmod.entity.ModEntities;
 import net.ocechat.tutorialmod.entity.custom.shield_barrier_spell_entity.ShieldBarrierSpellEntity;
 import net.ocechat.tutorialmod.magic.spell.ModSpell;
@@ -24,22 +25,35 @@ public class ShieldBarrierSpell extends ModSpell {
 
 
     @Override
-    public void cast(World world, PlayerEntity player, @Nullable int deltaTime) {
-        Vec3d look = player.getRotationVec(1.0F);
-        Vec3d eyePos = player.getEyePos();
+    public void cast(World world, PlayerEntity player, @Nullable Integer deltaTime) {
+        if (world.isClient) return; // IMPORTANT : n'exécute le spawn QUE côté serveur
 
-        Vec3d spawnPos = eyePos.add(look.multiply(1));
 
-        // Création de la boule de feu
+        Vec3d spawnPos = player.getPos();
+
         ShieldBarrierSpellEntity shieldBarrier = new ShieldBarrierSpellEntity(ModEntities.SHIELD_BARRIER_SPELL_ENTITY, world);
-        ActivesSpells.addSpell(new SpellInstance(player, this, shieldBarrier));
 
-        // Placement
+        // Position ET rotation AVANT le spawn pour que le paquet contienne les bons angles
         shieldBarrier.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
 
-        // Spawn dans le monde
-        world.spawnEntity(shieldBarrier);
+        float yaw = player.getYaw();
+        float pitch = player.getPitch();
+
+        shieldBarrier.setYaw(yaw);
+        shieldBarrier.setPitch(pitch);
+
+        // Optionnel mais utile : refreshPositionAndAngles si disponible
+        try {
+            shieldBarrier.refreshPositionAndAngles(spawnPos, yaw, pitch);
+        } catch (NoSuchMethodError ignored) {
+            // fallback silencieux si la méthode n'existe pas dans ta mapping
+        }
+
+        ActivesSpells.addSpell(new SpellInstance(player, this, shieldBarrier));
+        world.spawnEntity(shieldBarrier); // spawn côté serveur -> paquet au client
     }
+
+
 
     @Override
     public void tick(SpellInstance instance) {
@@ -51,8 +65,9 @@ public class ShieldBarrierSpell extends ModSpell {
         }
     }
 
+
     @Override
-    public void tryCast(World world, PlayerEntity player, @Nullable int deltaTime) {
+    public void tryCast(World world, PlayerEntity player, @Nullable Integer deltaTime) {
         if (canCast(player)) {
             this.setCurrentCooldown(this.getCooldown());
 
@@ -65,6 +80,7 @@ public class ShieldBarrierSpell extends ModSpell {
             player.sendMessage(Text.literal("The Spell is in cooldown !"), true);
 
         }
+
 
     }
 }
