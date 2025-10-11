@@ -18,7 +18,7 @@ public class ShieldBarrierSpell extends ModSpell {
 
 
     public ShieldBarrierSpell() {
-        super("shield_barrier_spell",60, 20, ModKeyBinding.SHIELD_BARRIER_SPELL, false, 600, false);
+        super("shield_barrier_spell",60, 100, ModKeyBinding.SHIELD_BARRIER_SPELL, false, 10, false);
     }
 
 
@@ -37,14 +37,13 @@ public class ShieldBarrierSpell extends ModSpell {
         shieldBarrier.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
 
         float yaw = player.getYaw();
-        float pitch = player.getPitch();
 
         shieldBarrier.setYaw(yaw);
-        shieldBarrier.setPitch(pitch);
+        shieldBarrier.setPitch(0);
 
         // Optionnel mais utile : refreshPositionAndAngles si disponible
         try {
-            shieldBarrier.refreshPositionAndAngles(spawnPos, yaw, pitch);
+            shieldBarrier.refreshPositionAndAngles(spawnPos, yaw, 0);
         } catch (NoSuchMethodError ignored) {
             // fallback silencieux si la méthode n'existe pas dans ta mapping
         }
@@ -58,10 +57,12 @@ public class ShieldBarrierSpell extends ModSpell {
     @Override
     public void tick(SpellInstance instance) {
         this.setCurrentCooldown(this.getCurrentCooldown() - 1);
+        this.setCurrentLifetime(this.getCurrentLifetime() - 1);
+
         if (!(instance.getAttachedElement() instanceof ShieldBarrierSpellEntity shieldBarrier)) return;
 
-        if (!shieldBarrier.isAlive() || getLifetime() < getCurrentLifetime()) {
-            shieldBarrier.discard();
+        if (getLifetime() <= getCurrentLifetime() && !shieldBarrier.isDiscarding()) {
+            shieldBarrier.setDiscarding(true);
         }
     }
 

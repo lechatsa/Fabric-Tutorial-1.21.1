@@ -8,40 +8,40 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.TypeFilter;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.ocechat.tutorialmod.OcechatMath;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.data.DataTracker;
 
-
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
-public class ShieldBarrierSpellEntity extends ProjectileEntity {
-    public ShieldBarrierSpellEntity(EntityType<? extends ProjectileEntity> entityType, World world) {
+
+public class ShieldBarrierSpellEntity extends Entity {
+    private final int lifeTime;
+
+
+    public ShieldBarrierSpellEntity(EntityType<? extends Entity> entityType, World world) {
         super(entityType, world);
-        this.life = 2;
+        this.lifePoint = 2;
+        this.lifeTime = 600;
     }
 
 
     private boolean clientAnimationStarted = false; // local client flag pour lancer animationState
     private int discardTimer = 0;
-    private final int DISCARD_DURATION_TICKS = 20; // ajuster selon durée d'animation (ex 20 ticks = 1s)
-    public int life;
+    private final int DISCARD_DURATION_TICKS = 40; // ajuster selon durée d'animation (ex 20 ticks = 1s)
+    public int lifePoint;
     public final AnimationState animationState = new AnimationState();
 
 
     @Override
     public void tick() {
         super.tick();
+        if (lifeTime <= age && !this.isDiscarding()) {
+            this.setDiscarding(true);
+        }
+
 
         // Si on est en mode destroy/discarding, compter et supprimer à la fin
         if (this.isDiscarding()) {
@@ -64,13 +64,14 @@ public class ShieldBarrierSpellEntity extends ProjectileEntity {
 
         // ton ancienne logique de vie
         int range = 5;
+
         // zone de détection autour du bouclier (correctement dimensionnée)
-        Box detectionBox = new Box(this.getX() - 2.0, this.getY() - 1.0, this.getZ() - 2.0,
-                this.getX() + 2.0, this.getY() + 2.0, this.getZ() + 2.0);
+        Box detectionBox = new Box(this.getX() - 2.0, this.getY() - 1.0, this.getZ() - 2.0, this.getX() + 2.0, this.getY() + 2.0, this.getZ() + 2.0);
+
         List<ProjectileEntity> projectiles = this.getWorld().getEntitiesByClass(
                 ProjectileEntity.class,
                 detectionBox,
-                p -> p.isAlive() && p != this
+                ProjectileEntity::isAlive
         );
 
         for (ProjectileEntity projectile : projectiles) {
@@ -85,7 +86,7 @@ public class ShieldBarrierSpellEntity extends ProjectileEntity {
 
 
 
-    @Override
+
     protected void onEntityHit(EntityHitResult entityHitResult) {
         Entity entity = entityHitResult.getEntity();
 
@@ -104,15 +105,14 @@ public class ShieldBarrierSpellEntity extends ProjectileEntity {
             if (blocked) {
                 // côté serveur : détruire le projectile et décrémenter la vie
                 projectile.discard();
-                life--;
+                lifePoint--;
 
-                if (life <= 0) {
+                if (lifePoint <= 0) {
                     // entrer en mode disparition, synchroniser vers le client
                     this.setDiscarding(true);
                     // ne pas discard() ici : laisser le serveur supprimer après DISCARD_DURATION_TICKS
                 }
             }
-
         }
     }
 

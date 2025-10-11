@@ -27,9 +27,8 @@ public class ShieldBarrierSpellEntityRenderer extends EntityRenderer<ShieldBarri
         float pitch = entity.getPitch();
 
         // Rotation Y (axe vertical)
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-yaw));
-        // Rotation X (axe horizontal)
-        //matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(-pitch));
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-yaw + 90));
+
 
         matrices.translate(0,1,0);
 
