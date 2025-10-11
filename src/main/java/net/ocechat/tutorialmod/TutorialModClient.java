@@ -9,6 +9,9 @@ import net.ocechat.tutorialmod.block.ModBlocks;
 import net.ocechat.tutorialmod.entity.ModEntities;
 import net.ocechat.tutorialmod.entity.custom.fireball_spell_entity.FireballSpellEntityModel;
 import net.ocechat.tutorialmod.entity.custom.fireball_spell_entity.FireballSpellEntityRenderer;
+import net.ocechat.tutorialmod.entity.custom.shield_barrier_spell_entity.ShieldBarrierSpellEntity;
+import net.ocechat.tutorialmod.entity.custom.shield_barrier_spell_entity.ShieldBarrierSpellEntityModel;
+import net.ocechat.tutorialmod.entity.custom.shield_barrier_spell_entity.ShieldBarrierSpellEntityRenderer;
 import net.ocechat.tutorialmod.magic.casting.KeyInputHandler;
 import net.ocechat.tutorialmod.util.ModKeyBinding;
 import net.ocechat.tutorialmod.util.ModModelPredicates;
@@ -29,6 +32,9 @@ public class TutorialModClient implements ClientModInitializer {
 
         EntityModelLayerRegistry.registerModelLayer(FireballSpellEntityModel.FIREBALL_SPELL, FireballSpellEntityModel::getTexturedModelData);
         EntityRendererRegistry.register(ModEntities.FIREBALL_SPELL_ENTITY, FireballSpellEntityRenderer::new);
+
+        EntityModelLayerRegistry.registerModelLayer(ShieldBarrierSpellEntityModel.SHIEL_BARRIER_SPELL, ShieldBarrierSpellEntityModel::getTexturedModelData);
+        EntityRendererRegistry.register(ModEntities.SHIELD_BARRIER_SPELL_ENTITY, ShieldBarrierSpellEntityRenderer::new);
 
     }
 }

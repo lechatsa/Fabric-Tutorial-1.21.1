@@ -51,4 +51,14 @@ public class ModEntities {
         TutorialMod.LOGGER.info("Registering Mod Entities for " + TutorialMod.MOD_ID);
     }
 
+    public static
+
 }
+
+// EntityModelLayerRegistry.registerModelLayer(FireballSpellEntityModel.FIREBALL_SPELL, FireballSpellEntityModel::getTexturedModelData);
+//        EntityRendererRegistry.register(ModEntities.FIREBALL_SPELL_ENTITY, FireballSpellEntityRenderer::new);
+//
+//        EntityModelLayerRegistry.registerModelLayer(ShieldBarrierSpellEntityModel.SHIEL_BARRIER_SPELL, ShieldBarrierSpellEntityModel::getTexturedModelData);
+//        EntityRendererRegistry.register(ModEntities.SHIELD_BARRIER_SPELL_ENTITY, ShieldBarrierSpellEntityRenderer::new);
+
+

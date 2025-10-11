@@ -14,9 +14,14 @@ import net.ocechat.tutorialmod.util.ModKeyBinding;
 import org.jetbrains.annotations.Nullable;
 
 public class ShieldBarrierSpell extends ModSpell {
-    public ShieldBarrierSpell(String id, int manaCost, int cooldown, KeyBinding keyBinding, boolean isAffectedByGravity, int lifetime) {
+
+
+    public ShieldBarrierSpell() {
         super("shield_barrier_spell",60, 20, ModKeyBinding.SHIELD_BARRIER_SPELL, false, 600, false);
     }
+
+
+
 
     @Override
     public void cast(World world, PlayerEntity player, @Nullable int deltaTime) {

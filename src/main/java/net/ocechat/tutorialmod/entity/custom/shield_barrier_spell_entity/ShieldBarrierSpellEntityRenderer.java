@@ -13,7 +13,7 @@ public class ShieldBarrierSpellEntityRenderer extends EntityRenderer<ShieldBarri
 
     private final ShieldBarrierSpellEntityModel model;
 
-    protected ShieldBarrierSpellEntityRenderer(EntityRendererFactory.Context ctx) {
+    public ShieldBarrierSpellEntityRenderer(EntityRendererFactory.Context ctx) {
         super(ctx);
         this.model = new ShieldBarrierSpellEntityModel(ctx.getPart(ShieldBarrierSpellEntityModel.SHIEL_BARRIER_SPELL));
     }
@@ -21,6 +21,7 @@ public class ShieldBarrierSpellEntityRenderer extends EntityRenderer<ShieldBarri
 
     @Override
     public void render(ShieldBarrierSpellEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+        matrices.push();
 
         this.model.render(
                 matrices,
@@ -29,6 +30,7 @@ public class ShieldBarrierSpellEntityRenderer extends EntityRenderer<ShieldBarri
                 OverlayTexture.DEFAULT_UV
         );
 
+        matrices.pop();
         super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
     }
 

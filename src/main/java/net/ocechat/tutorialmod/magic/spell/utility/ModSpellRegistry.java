@@ -4,6 +4,7 @@ import net.minecraft.util.Identifier;
 import net.ocechat.tutorialmod.TutorialMod;
 import net.ocechat.tutorialmod.magic.spell.ModSpell;
 import net.ocechat.tutorialmod.magic.spell.substantial.FireballSpell;
+import net.ocechat.tutorialmod.magic.spell.substantial.ShieldBarrierSpell;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +28,7 @@ public class ModSpellRegistry {
     public static void registerAll() {
 
         register("fireball", new FireballSpell());
+        register("shield_barrier", new ShieldBarrierSpell());
 
     }
 }

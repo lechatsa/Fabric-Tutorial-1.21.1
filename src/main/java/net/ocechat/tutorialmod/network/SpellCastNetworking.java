@@ -41,27 +41,33 @@ public class SpellCastNetworking {
 
                 if (spell != null) { // Verification
 
-                    if (spell.n)
+                    if (spell.isNeedToCharge()) {
 
+                        if (payload.asCharged()) { /// If the Payload say that the spell is charged, cast the Spell // If the Spell needs to charged, it'll be put in the ChargingSpell list.
 
-                    if (payload.asCharged()) { /// If the Payload say that the spell is charged, cast the Spell // If the Spell needs to charged, it'll be put in the ChargingSpell list.
+                            var chargingSpell = ChargingSpell.CHARGING_SPELLS.get(playerId);
 
-                        var chargingSpell = ChargingSpell.CHARGING_SPELLS.get(playerId);
+                            if (chargingSpell == null) { // Verification
+                                TutorialMod.LOGGER.warn("Aucun sort chargé trouvé pour {}", player.getName().getString());
+                                return;
+                            }
 
-                        if (chargingSpell == null) { // Verification
-                            TutorialMod.LOGGER.warn("Aucun sort chargé trouvé pour {}", player.getName().getString());
-                            return;
+                            int deltaTime = time - chargingSpell.timeAtFirstCall(); // First Call - Actual Time = Duration
+
+                            spell.tryCast(player.getServerWorld(), player, deltaTime); // Cast the Spell with the World, The Player, Duration
+
+                            ChargingSpell.removeSpellOfCharged(playerId); // Remove the spell associated to the player.
+
+                        } else {
+
+                            ChargingSpell.setSpellToCharged(player.getUuid(), spell, time);
+
                         }
 
-                        int deltaTime = time - chargingSpell.timeAtFirstCall(); // First Call - Actual Time = Duration
 
-                        spell.tryCast(player.getServerWorld(), player, deltaTime); // Cast the Spell with the World, The Player, Duration
+                    } else if (!spell.isNeedToCharge()) {
 
-                        ChargingSpell.removeSpellOfCharged(playerId); // Remove the spell associated to the player.
-
-                    } else {
-
-                        ChargingSpell.setSpellToCharged(player.getUuid(), spell, time);
+                        spell.tryCast(player.getServerWorld(), player, 0);
 
                     }
                 }
