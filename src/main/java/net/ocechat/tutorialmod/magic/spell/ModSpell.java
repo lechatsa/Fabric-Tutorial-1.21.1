@@ -4,7 +4,6 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.world.World;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.Text;
 import net.ocechat.tutorialmod.magic.spell.utility.SpellInstance;
 import org.jetbrains.annotations.Nullable;
 
@@ -14,26 +13,27 @@ public abstract class ModSpell {
     private int manaCost;
     private int cooldown;
     private KeyBinding keyBinding;
-    private boolean isAffectedByGravity;
+    private boolean AffectedByGravity;
     private final int lifetime;
 
     private int currentCooldown;
     private int currentLifetime;
+    private final boolean needToCharge;
 
 
 
 
 
-
-    public ModSpell(String id, int manaCost, int cooldown, KeyBinding keyBinding, boolean isAffectedByGravity, int lifetime) {
+    public ModSpell(String id, int manaCost, int cooldown, KeyBinding keyBinding, boolean AffectedByGravity, int lifetime, boolean needToCharge) {
 
         this.id = id;
         this.manaCost = manaCost;
         this.cooldown = cooldown;
-        this.isAffectedByGravity = isAffectedByGravity;
+        this.AffectedByGravity = AffectedByGravity;
         this.lifetime = lifetime;
 
         this.keyBinding = keyBinding;
+        this.needToCharge = needToCharge;
 
         this.currentLifetime = 0;
         this.currentCooldown = 0;
@@ -68,7 +68,7 @@ public abstract class ModSpell {
         return currentCooldown <= 0;
     }
 
-    public boolean isAffectedByGravity() { return isAffectedByGravity; }
+    public boolean isAffectedByGravity() { return AffectedByGravity; }
 
 
     public void setManaCost(int manaCost) {
@@ -88,10 +88,12 @@ public abstract class ModSpell {
     }
 
     public void setAffectedByGravity(boolean affectedByGravity) {
-        this.isAffectedByGravity = affectedByGravity;
+        this.AffectedByGravity = affectedByGravity;
     }
 
     public void setCurrentLifetime(int currentLifetime) { this.currentLifetime = currentLifetime; }
+
+    public boolean isNeedToCharge() { return needToCharge; }
 
 
 }

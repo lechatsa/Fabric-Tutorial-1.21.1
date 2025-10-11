@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class ShieldBarrierSpell extends ModSpell {
     public ShieldBarrierSpell(String id, int manaCost, int cooldown, KeyBinding keyBinding, boolean isAffectedByGravity, int lifetime) {
-        super("shield_barrier_spell",60, 20, ModKeyBinding.SHIELD_BARRIER_SPELL, false, 600);
+        super("shield_barrier_spell",60, 20, ModKeyBinding.SHIELD_BARRIER_SPELL, false, 600, false);
     }
 
     @Override
@@ -32,8 +32,6 @@ public class ShieldBarrierSpell extends ModSpell {
         // Placement
         shieldBarrier.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
 
-
-
         // Spawn dans le monde
         world.spawnEntity(shieldBarrier);
     }
@@ -43,7 +41,7 @@ public class ShieldBarrierSpell extends ModSpell {
         this.setCurrentCooldown(this.getCurrentCooldown() - 1);
         if (!(instance.getAttachedElement() instanceof ShieldBarrierSpellEntity shieldBarrier)) return;
 
-        if (!shieldBarrier.isAlive()) {
+        if (!shieldBarrier.isAlive() || getLifetime() < getCurrentLifetime()) {
             shieldBarrier.discard();
         }
     }

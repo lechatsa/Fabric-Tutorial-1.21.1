@@ -41,6 +41,9 @@ public class SpellCastNetworking {
 
                 if (spell != null) { // Verification
 
+                    if (spell.n)
+
+
                     if (payload.asCharged()) { /// If the Payload say that the spell is charged, cast the Spell // If the Spell needs to charged, it'll be put in the ChargingSpell list.
 
                         var chargingSpell = ChargingSpell.CHARGING_SPELLS.get(playerId);

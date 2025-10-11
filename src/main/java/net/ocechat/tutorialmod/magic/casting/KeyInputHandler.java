@@ -17,6 +17,13 @@ public class KeyInputHandler {
 
     public static void sendSpellWhenPressed() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            ///////////////////////////////////////////////// SHIELD_BARRIER_SPELL /////////////////////////////////////////////////
+            if (client.player == null) return; // sécurité
+
+            if (ModKeyBinding.SHIELD_BARRIER_SPELL.isPressed()) {
+                SpellCastNetworking.sendSpell(Identifier.of(TutorialMod.MOD_ID, "shield_barrier"), true);
+
+            }
 
 
 

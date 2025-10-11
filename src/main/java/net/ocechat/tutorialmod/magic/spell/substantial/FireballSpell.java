@@ -20,7 +20,7 @@ public class FireballSpell extends ModSpell {
 
 
     public FireballSpell() {
-        super("fireball", 0, 60, ModKeyBinding.FIREBALL_SPELL, true, 2000);
+        super("fireball", 0, 60, ModKeyBinding.FIREBALL_SPELL, true, 2000, true);
 
         this.timeToCharged = 60;
 
@@ -63,11 +63,11 @@ public class FireballSpell extends ModSpell {
         this.setCurrentCooldown(this.getCurrentCooldown() - 1);
         if (!(instance.getAttachedElement() instanceof FireballEntity fireball)) return;
 
-        if (!fireball.isAlive()) {
+        if (!fireball.isAlive() || getLifetime() < getCurrentLifetime()) {
             fireball.discard();
         }
 
-        if (getLifetime() < )
+
     }
 
     @Override
@@ -87,12 +87,5 @@ public class FireballSpell extends ModSpell {
             }
 
     }
-
-    @Override
-    public boolean isAffectedByGravity() {
-        return true;
-    }
-
-
 
 }
