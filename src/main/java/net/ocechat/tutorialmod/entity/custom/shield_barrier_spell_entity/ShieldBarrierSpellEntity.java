@@ -24,14 +24,22 @@ import java.util.function.Predicate;
 public class ShieldBarrierSpellEntity extends ProjectileEntity {
     public ShieldBarrierSpellEntity(EntityType<? extends ProjectileEntity> entityType, World world) {
         super(entityType, world);
+        this.life = 2;
     }
 
+    public int life;
     public final AnimationState animationState = new AnimationState();
 
 
     @Override
     public void tick() {
         super.tick();
+
+        if (life <= 0) {
+            this.animationState.startIfNotRunning(age);
+            this.discard();
+        }
+
 
         int range = 5;
         Predicate<ProjectileEntity> nearest = projectileEntity -> projectileEntity.squaredDistanceTo(this.getPos()) <= range * range;
@@ -78,7 +86,7 @@ public class ShieldBarrierSpellEntity extends ProjectileEntity {
                 World world =  this.getWorld();
                       world.playSound(null, this.getBlockPos(), SoundEvents.ITEM_SHIELD_BLOCK,
                               net.minecraft.sound.SoundCategory.PLAYERS, 1.0F, 1.0F);
-
+                life--;
             }
 
         }

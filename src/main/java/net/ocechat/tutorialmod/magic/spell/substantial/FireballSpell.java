@@ -20,7 +20,7 @@ public class FireballSpell extends ModSpell {
 
 
     public FireballSpell() {
-        super("fireball", 0, 60, ModKeyBinding.FIREBALL_SPELL, true, 80);
+        super("fireball", 0, 60, ModKeyBinding.FIREBALL_SPELL, true, 2000);
 
         this.timeToCharged = 60;
 
@@ -66,6 +66,8 @@ public class FireballSpell extends ModSpell {
         if (!fireball.isAlive()) {
             fireball.discard();
         }
+
+        if (getLifetime() < )
     }
 
     @Override

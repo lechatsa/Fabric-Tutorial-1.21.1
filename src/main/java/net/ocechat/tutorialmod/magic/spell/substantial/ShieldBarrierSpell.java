@@ -2,10 +2,13 @@ package net.ocechat.tutorialmod.magic.spell.substantial;
 
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.text.Text;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.ocechat.tutorialmod.entity.ModEntities;
+import net.ocechat.tutorialmod.entity.custom.shield_barrier_spell_entity.ShieldBarrierSpellEntity;
 import net.ocechat.tutorialmod.magic.spell.ModSpell;
+import net.ocechat.tutorialmod.magic.spell.utility.ActivesSpells;
 import net.ocechat.tutorialmod.magic.spell.utility.SpellInstance;
 import net.ocechat.tutorialmod.util.ModKeyBinding;
 import org.jetbrains.annotations.Nullable;
@@ -17,16 +20,31 @@ public class ShieldBarrierSpell extends ModSpell {
 
     @Override
     public void cast(World world, PlayerEntity player, @Nullable int deltaTime) {
+        Vec3d look = player.getRotationVec(1.0F);
+        Vec3d eyePos = player.getEyePos();
 
+        Vec3d spawnPos = eyePos.add(look.multiply(1));
+
+        // Création de la boule de feu
+        ShieldBarrierSpellEntity shieldBarrier = new ShieldBarrierSpellEntity(ModEntities.SHIELD_BARRIER_SPELL_ENTITY, world);
+        ActivesSpells.addSpell(new SpellInstance(player, this, shieldBarrier));
+
+        // Placement
+        shieldBarrier.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
+
+
+
+        // Spawn dans le monde
+        world.spawnEntity(shieldBarrier);
     }
 
     @Override
     public void tick(SpellInstance instance) {
         this.setCurrentCooldown(this.getCurrentCooldown() - 1);
-        if (!(instance.getAttachedElement() instanceof FireballEntity fireball)) return;
+        if (!(instance.getAttachedElement() instanceof ShieldBarrierSpellEntity shieldBarrier)) return;
 
-        if (!fireball.isAlive()) {
-            fireball.discard();
+        if (!shieldBarrier.isAlive()) {
+            shieldBarrier.discard();
         }
     }
 

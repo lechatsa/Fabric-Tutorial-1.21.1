@@ -18,6 +18,7 @@ public abstract class ModSpell {
     private final int lifetime;
 
     private int currentCooldown;
+    private int currentLifetime;
 
 
 
@@ -34,6 +35,7 @@ public abstract class ModSpell {
 
         this.keyBinding = keyBinding;
 
+        this.currentLifetime = 0;
         this.currentCooldown = 0;
 
     }
@@ -41,11 +43,8 @@ public abstract class ModSpell {
 
     public abstract void cast(World world, PlayerEntity player, @Nullable int deltaTime);
 
-    public boolean canCast(PlayerEntity player) {
-        return currentCooldown <= 0;
-    }
 
-
+    public abstract void tryCast(World world, PlayerEntity player, @Nullable int deltaTime);
 
     public abstract void tick(SpellInstance instance);
 
@@ -62,12 +61,14 @@ public abstract class ModSpell {
 
     public int getCurrentCooldown() { return currentCooldown; }
 
+    public int getCurrentLifetime() { return currentLifetime; }
 
-    public abstract void tryCast(World world, PlayerEntity player, @Nullable int deltaTime);
 
+    public boolean canCast(PlayerEntity player) {
+        return currentCooldown <= 0;
+    }
 
     public boolean isAffectedByGravity() { return isAffectedByGravity; }
-
 
 
     public void setManaCost(int manaCost) {
@@ -89,6 +90,8 @@ public abstract class ModSpell {
     public void setAffectedByGravity(boolean affectedByGravity) {
         this.isAffectedByGravity = affectedByGravity;
     }
+
+    public void setCurrentLifetime(int currentLifetime) { this.currentLifetime = currentLifetime; }
 
 
 }
