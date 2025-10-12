@@ -63,7 +63,4 @@ public class OcechatMath {
 
         return 2 * (1 - Math.exp(-k * deltaTime));
     }
-
-
-
 }

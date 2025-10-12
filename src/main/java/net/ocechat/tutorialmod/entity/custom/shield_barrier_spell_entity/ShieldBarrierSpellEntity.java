@@ -8,6 +8,8 @@ import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -19,12 +21,22 @@ import java.util.List;
 
 public class ShieldBarrierSpellEntity extends Entity {
     private final int lifeTime;
-
+    private final boolean DEBUG_MODE = true;
 
     public ShieldBarrierSpellEntity(EntityType<? extends Entity> entityType, World world) {
         super(entityType, world);
-        this.lifePoint = 2;
-        this.lifeTime = 600;
+
+        if (!DEBUG_MODE) {
+
+            this.lifePoint = 2;
+            this.lifeTime = 600;
+
+        } else {
+
+            this.lifePoint = 400;
+            this.lifeTime = 12000;
+
+        }
     }
 
 
@@ -42,6 +54,10 @@ public class ShieldBarrierSpellEntity extends Entity {
             this.setDiscarding(true);
         }
 
+        if (!this.getWorld().isClient()) {
+            // --- Visualisation des segments pour debug ---
+            drawShieldFunctions((ServerWorld) this.getWorld());
+        }
 
         // Si on est en mode destroy/discarding, compter et supprimer à la fin
         if (this.isDiscarding()) {
@@ -62,8 +78,8 @@ public class ShieldBarrierSpellEntity extends Entity {
             return;
         }
 
-        // ton ancienne logique de vie
-        int range = 5;
+
+
 
         // zone de détection autour du bouclier (correctement dimensionnée)
         Box detectionBox = new Box(this.getX() - 2.0, this.getY() - 1.0, this.getZ() - 2.0, this.getX() + 2.0, this.getY() + 2.0, this.getZ() + 2.0);
@@ -76,7 +92,7 @@ public class ShieldBarrierSpellEntity extends Entity {
 
         for (ProjectileEntity projectile : projectiles) {
             if (projectile.getBoundingBox().intersects(this.getBoundingBox().expand(0.5))) {
-                // On traite l'impact (côté serveur si possible)
+                // On traite l'impact (côté serveur si possible.)
                 if (!this.getWorld().isClient()) {
                     onEntityHit(new EntityHitResult(projectile));
                 }
@@ -87,68 +103,116 @@ public class ShieldBarrierSpellEntity extends Entity {
 
 
 
+    private static final boolean DEBUG_VISUAL = true; // Active/désactive les particules de debug
+
+
     protected void onEntityHit(EntityHitResult entityHitResult) {
         Entity entity = entityHitResult.getEntity();
 
         if (entity instanceof ProjectileEntity projectile) {
-
             Vec3d projPos = projectile.getPos();
             Vec3d projDir = projectile.getRotationVector();
+            Vec3d projVelocity = projectile.getVelocity();
 
-            // Position relative du projectile par rapport au bouclier
             double x = projPos.x - this.getX();
             double z = projPos.z - this.getZ();
 
-            // Calcul de l'angle relatif
-            boolean blocked = isBlocked(projDir, z, x);
+            boolean blocked = isBlocked(projVelocity, z, x, projDir, (ServerWorld) this.getWorld());
 
             if (blocked) {
-                // côté serveur : détruire le projectile et décrémenter la vie
                 projectile.discard();
                 lifePoint--;
 
+                System.out.println("[Bouclier] Projectile BLOQUÉ à x=" + x + ", z=" + z);
+
                 if (lifePoint <= 0) {
-                    // entrer en mode disparition, synchroniser vers le client
                     this.setDiscarding(true);
-                    // ne pas discard() ici : laisser le serveur supprimer après DISCARD_DURATION_TICKS
                 }
+            } else {
+                System.out.println("[Bouclier] Projectile détecté mais PAS bloqué (x=" + x + ", z=" + z + ")");
             }
         }
     }
 
-    private boolean isBlocked(Vec3d projDir, double z, double x) {
+    private boolean isBlocked(Vec3d projVelocity, double z0, double x0, Vec3d projDirWorld, ServerWorld world) {
         double deltaGamma = Math.toDegrees(
                 OcechatMath.angleBetween(
                         OcechatMath.toVec2d(this.getRotationVector()),
-                        OcechatMath.toVec2d(projDir)
+                        OcechatMath.toVec2d(projDirWorld)
                 )
         );
 
-        // Vérifie chaque segment du bouclier
+        Vec3d dir = projVelocity.normalize();
+        double vx = dir.x;
+        double vz = dir.z;
+
         boolean blocked = false;
 
-        // Segment 1
-        if (z >= 1 && z <= 2) {
-            double expectedZ = -x + 1.5;
-            if (Math.abs(z - expectedZ) < 0.2 && deltaGamma < -135)
+        // --- Définition des segments du bouclier ---
+        double[][] segments = {
+                {-1.0,  1.5,  1.0,  2.0, 1, 2,   -135.0, -1}, // f1(x) = -x + 1.5
+                { 1.0, -1.5, -2.0,  1.0, -2, -1,  135.0,  1}, // f2(x) =  x - 1.5
+                { 0.5, 0.0 , -1.0,  1.0, -1.0,  1.0,   90.0,  1}  // f3(x) = 0.5
+        };
+
+
+
+        for (double[] seg : segments) {
+            double a = seg[0];
+            double b = seg[1];
+            double zMin = seg[2];
+            double zMax = seg[3];
+            double xMin = seg[4];
+            double xMax = seg[5];
+            double angleLimite = seg[6];
+            double sensAngle = seg[7];
+
+            double denom = vz - a * vx;
+            if (Math.abs(denom) < 1e-6) continue;
+
+            double t = (a * x0 + b - z0) / denom;
+            if (t < 0) continue;
+
+            double xI = x0 + vx * t;
+            double zI = z0 + vz * t;
+
+            if (zI < zMin || zI > zMax) continue;
+            if (xI < xMin || xI > xMax) continue;
+
+            boolean angleOK = (sensAngle < 0 && deltaGamma < angleLimite)
+                    || (sensAngle > 0 && deltaGamma < angleLimite);
+
+            if (angleOK) {
+                System.out.println("[Bouclier] Intersection détectée : Δγ=" + String.format("%.2f", deltaGamma)
+                        + "° à (x=" + String.format("%.2f", xI) + ", z=" + String.format("%.2f", zI) + ")");
+                spawnDebugParticle(world, this.getX() + xI, this.getY() + 1.5, this.getZ() + zI);
                 blocked = true;
+            } else {
+                System.out.println("[Bouclier] Intersection trouvée mais angle incorrect Δγ="
+                        + String.format("%.2f", deltaGamma) + "°");
+            }
         }
 
-        // Segment 2
-        if (z >= -2 && z <= 1) {
-            double expectedZ = x - 1.5;
-            if (Math.abs(z - expectedZ) < 0.2 && deltaGamma < 135)
-                blocked = true;
-        }
-
-        // Segment 3
-        if (z >= -1 && z <= 1) {
-            double expectedX = 0.5;
-            if (Math.abs(x - expectedX) < 0.2 && deltaGamma < 90)
-                blocked = true;
-        }
         return blocked;
     }
+
+    private void drawShieldFunctions(ServerWorld world) {
+        for (double x = -2; x <= 2; x += 0.1) {
+            double z1 = -x + 1.5; // f1
+            double z2 = x - 1.5;  // f2
+            double x3 = 0.5;      // f3
+
+            world.spawnParticles(ParticleTypes.END_ROD, this.getX() + x, this.getY() + 1.0, this.getZ() + z1, 1, 0, 0, 0, 0);
+            world.spawnParticles(ParticleTypes.FLAME,   this.getX() + x, this.getY() + 1.0, this.getZ() + z2, 1, 0, 0, 0, 0);
+            world.spawnParticles(ParticleTypes.HAPPY_VILLAGER, this.getX() + x3, this.getY() + 1.0, this.getZ() + x, 1, 0, 0, 0, 0);
+        }
+    }
+
+    private void spawnDebugParticle(ServerWorld world, double x, double y, double z) {
+        world.spawnParticles(ParticleTypes.END_ROD, x, y, z, 3, 0, 0, 0, 0);
+    }
+
+
 
     private static final TrackedData<Boolean> DISCARDING = DataTracker.registerData(ShieldBarrierSpellEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 
