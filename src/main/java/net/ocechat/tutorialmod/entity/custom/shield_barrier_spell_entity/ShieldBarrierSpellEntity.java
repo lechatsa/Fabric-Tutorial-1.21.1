@@ -148,14 +148,15 @@ public class ShieldBarrierSpellEntity extends Entity {
 
         boolean blocked = false;
 
-        // --- Définition des segments du bouclier ---
+        // --- Segments du bouclier corrigés ---
+        // a, b, zMin, zMax, xMin, xMax, angleLimite, sensAngle, vertical
         double[][] segments = {
-                {-1.0,  1.5,  1.0,  2.0, 1, 2,   -135.0, -1}, // f1(x) = -x + 1.5
-                { 1.0, -1.5, -2.0,  1.0, -2, -1,  135.0,  1}, // f2(x) =  x - 1.5
-                { 0.5, 0.0 , -1.0,  1.0, -1.0,  1.0,   90.0,  1}  // f3(x) = 0.5
+                {-1.0,  1.5,  1.0,  2.0, 1, 2,   -135.0, -1, 0}, // f1(x) = -x + 1.5
+                { 1.0, -1.5, -2.0,  1.0, -2, -1,  135.0,  1, 0}, // f2(x) =  x - 1.5
+                { 0.0,  0.0, -1.0,  1.0,  0.5, 0.5,   90.0, 1, 1} // f3 : x = 0.5 (vertical)
         };
 
-
+        drawShieldFunctions(world); // debug visuel
 
         for (double[] seg : segments) {
             double a = seg[0];
@@ -166,21 +167,40 @@ public class ShieldBarrierSpellEntity extends Entity {
             double xMax = seg[5];
             double angleLimite = seg[6];
             double sensAngle = seg[7];
+            boolean isVertical = seg[8] == 1;
 
-            double denom = vz - a * vx;
-            if (Math.abs(denom) < 1e-6) continue;
+            double t, xI, zI;
 
-            double t = (a * x0 + b - z0) / denom;
-            if (t < 0) continue;
+            if (!isVertical) {
+                // Cas normal : z = a*x + b
+                double denom = vz - a * vx;
+                if (Math.abs(denom) < 1e-6) continue;
+                t = (a * x0 + b - z0) / denom;
+                if (t < 0) continue;
 
-            double xI = x0 + vx * t;
-            double zI = z0 + vz * t;
+                xI = x0 + vx * t;
+                zI = z0 + vz * t;
+            } else {
+                // Cas vertical : x = constante
+                double denom = vx;
+                if (Math.abs(denom) < 1e-6) continue;
+                t = (xMin - x0) / vx; // xMin = xMax = constante
+                if (t < 0) continue;
+
+                xI = x0 + vx * t;
+                zI = z0 + vz * t;
+            }
 
             if (zI < zMin || zI > zMax) continue;
-            if (xI < xMin || xI > xMax) continue;
+            if (xI < Math.min(xMin, xMax) || xI > Math.max(xMin, xMax)) continue;
 
-            boolean angleOK = (sensAngle < 0 && deltaGamma < angleLimite)
-                    || (sensAngle > 0 && deltaGamma < angleLimite);
+            // --- Correction : test d’angle selon le sens ---
+            boolean angleOK;
+            if (sensAngle < 0) {
+                angleOK = deltaGamma <= angleLimite;
+            } else {
+                angleOK = deltaGamma >= -angleLimite;
+            }
 
             if (angleOK) {
                 System.out.println("[Bouclier] Intersection détectée : Δγ=" + String.format("%.2f", deltaGamma)
@@ -196,17 +216,22 @@ public class ShieldBarrierSpellEntity extends Entity {
         return blocked;
     }
 
+
     private void drawShieldFunctions(ServerWorld world) {
         for (double x = -2; x <= 2; x += 0.1) {
             double z1 = -x + 1.5; // f1
             double z2 = x - 1.5;  // f2
-            double x3 = 0.5;      // f3
 
             world.spawnParticles(ParticleTypes.END_ROD, this.getX() + x, this.getY() + 1.0, this.getZ() + z1, 1, 0, 0, 0, 0);
-            world.spawnParticles(ParticleTypes.FLAME,   this.getX() + x, this.getY() + 1.0, this.getZ() + z2, 1, 0, 0, 0, 0);
-            world.spawnParticles(ParticleTypes.HAPPY_VILLAGER, this.getX() + x3, this.getY() + 1.0, this.getZ() + x, 1, 0, 0, 0, 0);
+            world.spawnParticles(ParticleTypes.FLAME, this.getX() + x, this.getY() + 1.0, this.getZ() + z2, 1, 0, 0, 0, 0);
+        }
+
+        // f3 : x = 0.5 (verticale)
+        for (double z = -1; z <= 1; z += 0.1) {
+            world.spawnParticles(ParticleTypes.HAPPY_VILLAGER, this.getX() + 0.5, this.getY() + 1.0, this.getZ() + z, 1, 0, 0, 0, 0);
         }
     }
+
 
     private void spawnDebugParticle(ServerWorld world, double x, double y, double z) {
         world.spawnParticles(ParticleTypes.END_ROD, x, y, z, 3, 0, 0, 0, 0);
