@@ -142,7 +142,7 @@ public class ShieldBarrierSpellEntity extends Entity {
                 )
         );
 
-        Vec3d dir = projVelocity.normalize();
+        Vec3d dir = projVelocity;
         double vx = dir.x;
         double vz = dir.z;
 
@@ -151,9 +151,9 @@ public class ShieldBarrierSpellEntity extends Entity {
         // --- Segments du bouclier corrigés ---
         // a, b, zMin, zMax, xMin, xMax, angleLimite, sensAngle, vertical
         double[][] segments = {
-                {-1.0,  1.5,  1.0,  2.0, 1, 2,   -135.0, -1, 0}, // f1(x) = -x + 1.5
-                { 1.0, -1.5, -2.0,  1.0, -2, -1,  135.0,  1, 0}, // f2(x) =  x - 1.5
-                { 0.0,  0.0, -1.0,  1.0,  0.5, 0.5,   90.0, 1, 1} // f3 : x = 0.5 (vertical)
+                {-1.0,  1.5,  1.0,  2.0,   1,   2, -135.0,  90, -1, 0}, // f1(x) = -x + 1.5
+                { 1.0, -1.5, -2.0,  1.0,  -2,  -1,  135.0, -90,  1, 0}, // f2(x) =  x - 1.5
+                { 0.0,  0.0, -1.0,  1.0, 0.5, 0.5,   90.0, -90,  1, 1} // f3 : x = 0.5 (vertical)
         };
 
         drawShieldFunctions(world); // debug visuel
@@ -166,8 +166,9 @@ public class ShieldBarrierSpellEntity extends Entity {
             double xMin = seg[4];
             double xMax = seg[5];
             double angleLimite = seg[6];
-            double sensAngle = seg[7];
-            boolean isVertical = seg[8] == 1;
+            double angleLimite2 = seg[7];
+            double sensAngle = seg[8];
+            boolean isVertical = seg[9] == 1;
 
             double t, xI, zI;
 
@@ -191,15 +192,24 @@ public class ShieldBarrierSpellEntity extends Entity {
                 zI = z0 + vz * t;
             }
 
-            if (zI < zMin || zI > zMax) continue;
-            if (xI < Math.min(xMin, xMax) || xI > Math.max(xMin, xMax)) continue;
+            if (zI < zMin || zI > zMax) {
+                System.out.println("Laissé passé car les coordonnées du point d'intersection sont hors des Z maximum et minimum%n");
+                continue;
+            }
+            if (xI < Math.min(xMin, xMax) || xI > Math.max(xMin, xMax)) {
+                System.out.println("Laissé passé car les coordonnées du point d'intersection sont hors des X maximum et minimum%n");
+                continue;
+            }
 
             // --- Correction : test d’angle selon le sens ---
             boolean angleOK;
             if (sensAngle < 0) {
-                angleOK = deltaGamma <= angleLimite;
+                angleOK = deltaGamma < angleLimite2 && angleLimite < deltaGamma;
+                System.out.printf("L'angle %f est inférieur %f et supérieur à %f%n", deltaGamma, angleLimite2, angleLimite);
             } else {
-                angleOK = deltaGamma >= -angleLimite;
+                angleOK = deltaGamma > angleLimite2 && angleLimite > deltaGamma;
+                System.out.printf("L'angle %f est inférieur %f et supérieur à %f%n", deltaGamma, angleLimite, angleLimite2);
+
             }
 
             if (angleOK) {

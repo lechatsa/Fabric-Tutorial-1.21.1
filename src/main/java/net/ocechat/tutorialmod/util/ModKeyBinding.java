@@ -10,6 +10,7 @@ public class ModKeyBinding {
 
     public static final KeyBinding FIREBALL_SPELL = registerKeyBinding("fireball_spell", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_4);
     public static final KeyBinding SHIELD_BARRIER_SPELL = registerKeyBinding("shield_barrier_spell", InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_5);
+    public static final KeyBinding FIRE_WALL_SPELL = registerKeyBinding("shield_barrier_spell", InputUtil.Type.MOUSE, GLFW.GLFW_KEY_R);
 
 
 
