@@ -30,10 +30,11 @@ public class KeyInputHandler {
 
         // Non-charging spells (press -> send once)
         handleNonCharging(client, ModKeyBinding.SHIELD_BARRIER_SPELL, "shield_barrier_spell");
+        handleNonCharging(client, ModKeyBinding.FIRE_WALL_SPELL, "fire_wall_spell");
 
         // Charging spells (press -> start (false), release -> cast (true))
         handleCharging(client, ModKeyBinding.FIREBALL_SPELL, "fireball_spell");
-        handleCharging(client, ModKeyBinding.FIRE_WALL_SPELL, "fire_wall_spell");
+
     }
 
     private static void handleCharging(MinecraftClient client, KeyBinding kb, String id) {

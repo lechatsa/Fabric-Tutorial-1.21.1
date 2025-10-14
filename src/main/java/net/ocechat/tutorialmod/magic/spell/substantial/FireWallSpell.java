@@ -1,39 +1,64 @@
 package net.ocechat.tutorialmod.magic.spell.substantial;
 
 import net.minecraft.block.Blocks;
-import net.minecraft.client.option.KeyBinding;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.ocechat.tutorialmod.TutorialMod;
 import net.ocechat.tutorialmod.magic.spell.ModSpell;
 import net.ocechat.tutorialmod.magic.spell.utility.SpellInstance;
 import net.ocechat.tutorialmod.util.ModKeyBinding;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FireWallSpell extends ModSpell {
 
     public FireWallSpell() {
-        super("fire_wall_spell", 60, 10, ModKeyBinding.FIRE_WALL_SPELL, false, 60, false);
+        super("fire_wall_spell", 0, 0, ModKeyBinding.FIRE_WALL_SPELL, false, 60, false);
     }
 
     @Override
     public void cast(World world, PlayerEntity player, @Nullable Integer deltaTime) {
-        if (world.isClient) return; // seulement côté serveur
+        super.cast(world, player, deltaTime);
 
-        Vec3d direction = player.getRotationVec(1.0F).normalize(); // direction du regard
-        Vec3d start = player.getPos().add(0, 0.1, 0); // léger décalage vertical
-        int length = 15; // longueur du mur
+        if (world.isClient) return; // uniquement côté serveur
 
-        for (int i = 1; i <= length; i++) {
-            Vec3d pos = start.add(direction.multiply(i));
+        List<BlockPos> blocksToIgnite = new ArrayList<>();
+        int rangeHorizontal = 15;
+        int rangeVertical = 5;
+
+        // direction du regard du joueur
+        Vec3d look = player.getRotationVec(1f).normalize();
+        // position légèrement en avant du joueur (au sol)
+        Vec3d basePos = player.getPos().add(0, -1, 0);
+
+        for (int i = 2; i < rangeHorizontal + 2; i++) {
+            // Position le long du vecteur de direction
+            Vec3d pos = basePos.add(look.multiply(i));
             BlockPos blockPos = new BlockPos((int) pos.x, (int) pos.y, (int) pos.z);
 
-            // Place le feu uniquement si l'emplacement est libre et qu’il y a un bloc dessous
-            BlockPos below = blockPos.down();
-            if (world.isAir(blockPos) && world.getBlockState(below).isSolidBlock(world, below)) {
-                world.setBlockState(blockPos, Blocks.FIRE.getDefaultState());
+            // Cherche le premier bloc solide en dessous
+            BlockPos current = blockPos;
+            int tries = 0;
+            while (world.getBlockState(current).isAir() && tries < rangeVertical) {
+                current = current.down();
+                tries++;
             }
+
+            // Allume le feu au-dessus du bloc solide trouvé
+            BlockPos firePos = current.up();
+            if (world.isAir(firePos)) {
+                blocksToIgnite.add(firePos);
+            }
+        }
+
+
+        // Allume le feu
+        for (BlockPos pos : blocksToIgnite) {
+            world.setBlockState(pos, Blocks.FIRE.getDefaultState());
         }
     }
 
@@ -47,6 +72,6 @@ public class FireWallSpell extends ModSpell {
 
     @Override
     public void tick(SpellInstance instance) {
-        // pas besoin ici, sort instantané
+        // Sort instantané, rien à faire ici
     }
 }

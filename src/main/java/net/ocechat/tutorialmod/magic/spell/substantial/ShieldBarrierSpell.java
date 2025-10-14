@@ -26,8 +26,10 @@ public class ShieldBarrierSpell extends ModSpell {
 
     @Override
     public void cast(World world, PlayerEntity player, @Nullable Integer deltaTime) {
-        if (world.isClient) return; // IMPORTANT : n'exécute le spawn QUE côté serveur
 
+        super.cast(world, player, deltaTime);
+
+        if (world.isClient) return; // IMPORTANT : n'exécute le spawn QUE côté serveur
 
         Vec3d spawnPos = player.getPos();
 

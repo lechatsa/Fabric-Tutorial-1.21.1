@@ -4,6 +4,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.world.World;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.ocechat.tutorialmod.TutorialMod;
 import net.ocechat.tutorialmod.magic.spell.utility.SpellInstance;
 import org.jetbrains.annotations.Nullable;
 
@@ -41,7 +42,9 @@ public abstract class ModSpell {
     }
 
 
-    public abstract void cast(World world, PlayerEntity player, @Nullable Integer deltaTime);
+    public void cast(World world, PlayerEntity player, @Nullable Integer deltaTime) {
+        TutorialMod.LOGGER.info("[{}] Cast triggered by {}", this.getId().toUpperCase(), player.getName().getString());
+    }
 
 
     public abstract void tryCast(World world, PlayerEntity player, @Nullable Integer deltaTime);
