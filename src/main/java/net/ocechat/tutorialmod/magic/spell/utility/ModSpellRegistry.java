@@ -3,6 +3,7 @@ package net.ocechat.tutorialmod.magic.spell.utility;
 import net.minecraft.util.Identifier;
 import net.ocechat.tutorialmod.TutorialMod;
 import net.ocechat.tutorialmod.magic.spell.ModSpell;
+import net.ocechat.tutorialmod.magic.spell.substantial.FireWallSpell;
 import net.ocechat.tutorialmod.magic.spell.substantial.FireballSpell;
 import net.ocechat.tutorialmod.magic.spell.substantial.ShieldBarrierSpell;
 
@@ -29,6 +30,7 @@ public class ModSpellRegistry {
 
         register("fireball", new FireballSpell());
         register("shield_barrier", new ShieldBarrierSpell());
+        register("fire_wall_spell", new FireWallSpell());
 
     }
 }
