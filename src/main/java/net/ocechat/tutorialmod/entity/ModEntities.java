@@ -16,7 +16,7 @@ public class ModEntities {
     //////////////////////////////////////// Here are Register the Customs Entities ////////////////////////////////////////
 
     public static EntityType<FireballSpellEntity> FIREBALL_SPELL_ENTITY = registerEntity("fireball_spell_entity", FireballSpellEntity::new, SpawnGroup.MISC, 0.5f, 0.5f, 100);
-    public static EntityType<ShieldBarrierSpellEntity> SHIELD_BARRIER_SPELL_ENTITY = registerEntity("shiel_barrier_spell_entity", ShieldBarrierSpellEntity::new, SpawnGroup.MISC, 4f, 2.4f, 100);
+    public static EntityType<ShieldBarrierSpellEntity> SHIELD_BARRIER_SPELL_ENTITY = registerEntity("shield_barrier_spell_entity", ShieldBarrierSpellEntity::new, SpawnGroup.MISC, 4f, 2.4f, 100);
 
 
     /////////////////////////////////// Helper Methods to Register an Entity/EntitySpell ///////////////////////////////////

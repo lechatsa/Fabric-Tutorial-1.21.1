@@ -45,12 +45,10 @@ public class TutorialMod implements ModInitializer {
         ModEnchantmentEffects.registerEnchantmentEffect();
 
         ModKeyBinding.registerModKeyBinding();
-        KeyInputHandler.registerKeyInputHandler();
 
         FuelRegistry.INSTANCE.add(ModItems.STARLITGHT_ASHES, 3000);
 
         PlayerBlockBreakEvents.BEFORE.register(new HammerUsageEvent());
-
 
         ModSpellRegistry.registerAll();
 
@@ -59,7 +57,6 @@ public class TutorialMod implements ModInitializer {
                 SpellCastPayload.CODEC
         );
 
-        SpellCastNetworking.registerC2SPackets();
 
         ActivesSpells.register();
 

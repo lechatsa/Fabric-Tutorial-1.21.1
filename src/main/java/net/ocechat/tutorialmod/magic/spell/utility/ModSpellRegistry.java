@@ -28,8 +28,8 @@ public class ModSpellRegistry {
 
     public static void registerAll() {
 
-        register("fireball", new FireballSpell());
-        register("shield_barrier", new ShieldBarrierSpell());
+        register("fireball_spell", new FireballSpell());
+        register("shield_barrier_spell", new ShieldBarrierSpell());
         register("fire_wall_spell", new FireWallSpell());
 
     }

@@ -8,57 +8,73 @@ import net.ocechat.tutorialmod.TutorialMod;
 import net.ocechat.tutorialmod.util.ModKeyBinding;
 import net.ocechat.tutorialmod.network.SpellCastNetworking;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class KeyInputHandler {
 
-    static boolean wasPressed = false;
+    // état par KeyBinding pour edge detection
+    private static final Map<KeyBinding, Boolean> wasPressedMap = new HashMap<>();
 
+    // pour limiter l'envoi en cas de spam (supplementaire) : dernier tick d'envoi (client tick)
+    private static final Map<KeyBinding, Integer> lastSentTick = new HashMap<>();
+    private static final int SPAM_TICK_DELAY = 5; // en ticks (20 ticks = 1s)
 
-    public static void sendSpellWhenPressed() {
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-
-            registerNonChargingSpell(client, ModKeyBinding.SHIELD_BARRIER_SPELL, "shield_barrier");
-
-        });
+    public static void registerHandlers() {
+        TutorialMod.LOGGER.info("Registering KeyInputHandler");
+        ClientTickEvents.END_CLIENT_TICK.register(KeyInputHandler::onEndTick);
     }
 
-    public static void sendSpellWhenPressedAndRelease() {
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+    private static void onEndTick(MinecraftClient client) {
+        if (client.player == null) return;
 
-            registerChargingSpell(client, ModKeyBinding.FIREBALL_SPELL, "fireball_spell");
-            registerChargingSpell(client, ModKeyBinding.FIRE_WALL_SPELL, "fire_wall_spell");
+        // Non-charging spells (press -> send once)
+        handleNonCharging(client, ModKeyBinding.SHIELD_BARRIER_SPELL, "shield_barrier_spell");
 
-        });
+        // Charging spells (press -> start (false), release -> cast (true))
+        handleCharging(client, ModKeyBinding.FIREBALL_SPELL, "fireball_spell");
+        handleCharging(client, ModKeyBinding.FIRE_WALL_SPELL, "fire_wall_spell");
     }
 
-    public static void registerChargingSpell(MinecraftClient client, KeyBinding keyBinding, String ID) {
+    private static void handleCharging(MinecraftClient client, KeyBinding kb, String id) {
+        boolean pressed = kb.isPressed();
+        boolean wasPressed = wasPressedMap.getOrDefault(kb, false);
+        int tick = client.world == null ? 0 : client.world.getTime() > Integer.MAX_VALUE ? 0 : (int)(client.world.getTime() % Integer.MAX_VALUE);
 
-        if (client.player == null) return; // sécurité
-        boolean isCurrentlyPressed = keyBinding.isPressed();
-
-        // Quand la touche vient d'être pressée :
-        if (isCurrentlyPressed && !wasPressed) {
-            SpellCastNetworking.sendSpell(Identifier.of(TutorialMod.MOD_ID, ID), false);
-            wasPressed = true;
+        if (pressed && !wasPressed) {
+            TutorialMod.LOGGER.info("[KeyInput] Pressed start for " + id);
+            SpellCastNetworking.sendSpell(Identifier.of(TutorialMod.MOD_ID, id), false); // start charging
+            lastSentTick.put(kb, tick);
         }
 
-        // Quand la touche vient d'être relâchée :
-        if (!isCurrentlyPressed && wasPressed) {
-            SpellCastNetworking.sendSpell(Identifier.of(TutorialMod.MOD_ID, ID), true);
-            wasPressed = false;
-
+        if (!pressed && wasPressed) {
+            TutorialMod.LOGGER.info("[KeyInput] Released -> send cast for " + id);
+            SpellCastNetworking.sendSpell(Identifier.of(TutorialMod.MOD_ID, id), true); // release => cast
+            lastSentTick.put(kb, tick);
         }
+
+        wasPressedMap.put(kb, pressed);
     }
 
-    public static void registerNonChargingSpell(MinecraftClient client, KeyBinding keyBinding, String ID) {
-        if (client.player == null) return; // sécurité
+    private static void handleNonCharging(MinecraftClient client, KeyBinding kb, String id) {
+        boolean pressed = kb.isPressed();
+        boolean wasPressed = wasPressedMap.getOrDefault(kb, false);
+        int tick = client.world == null ? 0 : (int) client.world.getTime();
+        int lastTick = lastSentTick.getOrDefault(kb, -9999);
 
-        if (keyBinding.isPressed()) {
-            SpellCastNetworking.sendSpell(Identifier.of(TutorialMod.MOD_ID, ID), true);
-
+        // on envoie uniquement lors du bord montant (pressed && !wasPressed)
+        if (pressed && !wasPressed) {
+            // anti-spam: ne pas envoyer si dernier envoi trop récent
+            if (tick - lastTick >= SPAM_TICK_DELAY) {
+                TutorialMod.LOGGER.info("[KeyInput] NonCharging: send " + id);
+                SpellCastNetworking.sendSpell(Identifier.of(TutorialMod.MOD_ID, id), true);
+                lastSentTick.put(kb, tick);
+            } else {
+                TutorialMod.LOGGER.info("[KeyInput] NonCharging: skipped spam " + id);
+            }
         }
+
+        wasPressedMap.put(kb, pressed);
     }
 
-    public static void registerKeyInputHandler() {
-        TutorialMod.LOGGER.info("Registering Key Input Handler for " + TutorialMod.MOD_ID);
-    }
 }

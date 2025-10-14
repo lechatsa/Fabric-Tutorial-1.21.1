@@ -21,8 +21,9 @@ public class SpellCastNetworking {
 
     /// Receiving Server Side | Client -> Server
     public static void registerC2SPackets() {
+        TutorialMod.LOGGER.info("Registering C2S packets for " + TutorialMod.MOD_ID);
         ServerPlayNetworking.registerGlobalReceiver(SpellCastPayload.ID, (payload, context) -> {
-
+            TutorialMod.LOGGER.info("Received packet " + payload.spellId());
             //////////////////////////////////////////// Initialisation of the Variables ////////////////////////////////////////////
             var player = context.player();
             var spellId = payload.spellId();
@@ -33,7 +34,12 @@ public class SpellCastNetworking {
                 ////////////////////////////////////////////////// The server Execute //////////////////////////////////////////////////
 
                 //////////////////////////////////////////// Initialisation of the Variables ////////////////////////////////////////////
+
                 var spell = ModSpellRegistry.get(spellId.toString());
+                if (spell == null) {
+                    TutorialMod.LOGGER.warn("The Spell send isn't associated to a ModSpell in ModSpellRegistry ");
+                }
+
                 int time = player.getServer().getTicks();
                 UUID playerId = player.getUuid();
 

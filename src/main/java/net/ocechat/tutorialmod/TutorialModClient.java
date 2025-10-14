@@ -13,6 +13,7 @@ import net.ocechat.tutorialmod.entity.custom.shield_barrier_spell_entity.ShieldB
 import net.ocechat.tutorialmod.entity.custom.shield_barrier_spell_entity.ShieldBarrierSpellEntityModel;
 import net.ocechat.tutorialmod.entity.custom.shield_barrier_spell_entity.ShieldBarrierSpellEntityRenderer;
 import net.ocechat.tutorialmod.magic.casting.KeyInputHandler;
+import net.ocechat.tutorialmod.network.SpellCastNetworking;
 import net.ocechat.tutorialmod.util.ModKeyBinding;
 import net.ocechat.tutorialmod.util.ModModelPredicates;
 
@@ -22,13 +23,11 @@ public class TutorialModClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.PINK_GARNET_DOOR, RenderLayer.getCutout());
         BlockRenderLayerMap.INSTANCE.putBlock(ModBlocks.PINK_GARNET_TRAPDOOR, RenderLayer.getCutout());
 
+        SpellCastNetworking.registerC2SPackets();
+
         ModModelPredicates.registerModelPredicates();
 
-        ModKeyBinding.registerModKeyBinding();
-
-
-        KeyInputHandler.sendSpellWhenPressed();
-        KeyInputHandler.sendSpellWhenPressedAndRelease();
+        KeyInputHandler.registerHandlers();
 
         EntityModelLayerRegistry.registerModelLayer(FireballSpellEntityModel.FIREBALL_SPELL, FireballSpellEntityModel::getTexturedModelData);
         EntityRendererRegistry.register(ModEntities.FIREBALL_SPELL_ENTITY, FireballSpellEntityRenderer::new);
