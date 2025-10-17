@@ -8,6 +8,7 @@ import net.ocechat.tutorialmod.TutorialMod;
 import net.ocechat.tutorialmod.magic.spell.utility.SpellInstance;
 import org.jetbrains.annotations.Nullable;
 
+
 public abstract class ModSpell {
 
     private final String id;
@@ -43,36 +44,56 @@ public abstract class ModSpell {
 
 
     public void cast(World world, PlayerEntity player, @Nullable Integer deltaTime) {
-        TutorialMod.LOGGER.info("[{}] Cast triggered by {}", this.getId().toUpperCase(), player.getName().getString());
+        if (TutorialMod.DEBUG_MODE) {
+            TutorialMod.LOGGER.info("[{}] Cast triggered by {}", this.getId().toUpperCase(), player.getName().getString());
+        }
     }
-
 
     public abstract void tryCast(World world, PlayerEntity player, @Nullable Integer deltaTime);
 
     public abstract void tick(SpellInstance instance);
 
 
-    public String getId() { return id;}
+    //////////////////////////////////////////////////////// Getter ////////////////////////////////////////////////////////
 
-    public int getManaCost() { return manaCost; }
+    public String getId() {
+        return id;
+    }
 
-    public int getCooldown() { return cooldown; }
+    public int getManaCost() {
+        return manaCost;
+    }
 
-    public KeyBinding getKeyBinding() { return keyBinding; }
+    public int getCooldown() {
+        return cooldown;
+    }
 
-    public int getLifetime() { return lifetime; }
+    public KeyBinding getKeyBinding() {
+        return keyBinding;
+    }
 
-    public int getCurrentCooldown() { return currentCooldown; }
+    public int getLifetime() {
+        return lifetime;
+    }
 
-    public int getCurrentLifetime() { return currentLifetime; }
+    public int getCurrentCooldown() {
+        return currentCooldown;
+    }
 
+    public int getCurrentLifetime() {
+        return currentLifetime;
+    }
 
     public boolean canCast(PlayerEntity player) {
         return currentCooldown <= 0;
     }
 
-    public boolean isAffectedByGravity() { return AffectedByGravity; }
+    public boolean isAffectedByGravity() {
+        return AffectedByGravity;
+    }
 
+
+    //////////////////////////////////////////////////////// Setter ////////////////////////////////////////////////////////
 
     public void setManaCost(int manaCost) {
         this.manaCost = manaCost;
@@ -94,9 +115,13 @@ public abstract class ModSpell {
         this.AffectedByGravity = affectedByGravity;
     }
 
-    public void setCurrentLifetime(int currentLifetime) { this.currentLifetime = currentLifetime; }
+    public void setCurrentLifetime(int currentLifetime) {
+        this.currentLifetime = currentLifetime;
+    }
 
-    public boolean isNeedToCharge() { return needToCharge; }
+    public boolean isNeedToCharge() {
+        return needToCharge;
+    }
 
 
 }

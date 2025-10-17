@@ -21,7 +21,7 @@ public class FireballSpell extends ModSpell {
 
 
     public FireballSpell() {
-        super("fireball", 0, 60, ModKeyBinding.FIREBALL_SPELL, true, 2000, true);
+        super("fireball_spell", 0, 60, ModKeyBinding.FIREBALL_SPELL, true, 2000, true);
 
         this.timeToCharged = 60;
 

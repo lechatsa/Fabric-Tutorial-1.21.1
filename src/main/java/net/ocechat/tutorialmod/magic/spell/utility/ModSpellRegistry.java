@@ -14,8 +14,8 @@ public class ModSpellRegistry {
     private static final Map<String, ModSpell> SPELLS = new HashMap<>();
 
     // Enregistre un spell
-    public static <T extends ModSpell> T register(String name, T spell) {
-        Identifier id = Identifier.of(TutorialMod.MOD_ID, name);
+    public static <T extends ModSpell> T register(T spell) {
+        Identifier id = Identifier.of(TutorialMod.MOD_ID, spell.getId());
         SPELLS.put(id.toString(), spell);
         return spell;
     }
@@ -28,9 +28,9 @@ public class ModSpellRegistry {
 
     public static void registerAll() {
 
-        register("fireball_spell", new FireballSpell());
-        register("shield_barrier_spell", new ShieldBarrierSpell());
-        register("fire_wall_spell", new FireWallSpell());
+        register(new FireballSpell());
+        register(new ShieldBarrierSpell());
+        register(new FireWallSpell());
 
     }
 }

@@ -28,7 +28,7 @@ public class FireWallSpell extends ModSpell {
 
         List<BlockPos> blocksToIgnite = new ArrayList<>();
         int rangeHorizontal = 15;
-        int rangeVertical = 5;
+        int rangeVertical = 3;
 
         // direction du regard du joueur
         Vec3d look = player.getRotationVec(1f).normalize();
