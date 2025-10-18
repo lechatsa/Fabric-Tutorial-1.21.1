@@ -5,6 +5,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.util.Identifier;
 import net.ocechat.tutorialmod.TutorialMod;
+import net.ocechat.tutorialmod.magic.spell.ModSpell;
+import net.ocechat.tutorialmod.magic.spell.substantial.FireWallSpell;
+import net.ocechat.tutorialmod.magic.spell.substantial.FireballSpell;
+import net.ocechat.tutorialmod.magic.spell.substantial.ShieldBarrierSpell;
 import net.ocechat.tutorialmod.util.ModKeyBinding;
 import net.ocechat.tutorialmod.network.SpellCastNetworking;
 
@@ -29,11 +33,11 @@ public class KeyInputHandler {
         if (client.player == null) return;
 
         // Non-charging spells (press -> send once)
-        handleNonCharging(client, ModKeyBinding.SHIELD_BARRIER_SPELL, "shield_barrier_spell");
-        handleNonCharging(client, ModKeyBinding.FIRE_WALL_SPELL, "fire_wall_spell");
+        handleNonCharging(client, ModKeyBinding.SHIELD_BARRIER_SPELL, ShieldBarrierSpell.ID);
+        handleNonCharging(client, ModKeyBinding.FIRE_WALL_SPELL, FireWallSpell.ID);
 
         // Charging spells (press -> start (false), release -> cast (true))
-        handleCharging(client, ModKeyBinding.FIREBALL_SPELL, "fireball_spell");
+        handleCharging(client, ModKeyBinding.FIREBALL_SPELL, FireballSpell.ID);
 
     }
 

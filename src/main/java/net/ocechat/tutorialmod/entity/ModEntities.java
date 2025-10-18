@@ -9,14 +9,16 @@ import net.minecraft.util.Identifier;
 import net.ocechat.tutorialmod.TutorialMod;
 import net.ocechat.tutorialmod.entity.custom.fireball_spell_entity.FireballSpellEntity;
 import net.ocechat.tutorialmod.entity.custom.shield_barrier_spell_entity.ShieldBarrierSpellEntity;
+import net.ocechat.tutorialmod.magic.spell.substantial.FireballSpell;
+import net.ocechat.tutorialmod.magic.spell.substantial.ShieldBarrierSpell;
 
 
 public class ModEntities {
 
     //////////////////////////////////////// Here are Register the Customs Entities ////////////////////////////////////////
 
-    public static EntityType<FireballSpellEntity> FIREBALL_SPELL_ENTITY = registerEntity("fireball_spell_entity", FireballSpellEntity::new, SpawnGroup.MISC, 0.5f, 0.5f, 100);
-    public static EntityType<ShieldBarrierSpellEntity> SHIELD_BARRIER_SPELL_ENTITY = registerEntity("shield_barrier_spell_entity", ShieldBarrierSpellEntity::new, SpawnGroup.MISC, 4f, 2.4f, 100);
+    public static EntityType<FireballSpellEntity> FIREBALL_SPELL_ENTITY = registerEntity(FireballSpell.ID, FireballSpellEntity::new, SpawnGroup.MISC, 0.5f, 0.5f, 100);
+    public static EntityType<ShieldBarrierSpellEntity> SHIELD_BARRIER_SPELL_ENTITY = registerEntity(ShieldBarrierSpell.ID, ShieldBarrierSpellEntity::new, SpawnGroup.MISC, 4f, 2.4f, 100);
 
 
     /////////////////////////////////// Helper Methods to Register an Entity/EntitySpell ///////////////////////////////////
@@ -30,15 +32,15 @@ public class ModEntities {
             int maxTrackingRange
     )
     {
-         EntityType<T> type = Registry.register(
-                 Registries.ENTITY_TYPE,
-                 Identifier.of(TutorialMod.MOD_ID, name),
-                 EntityType.Builder
-                         .create(factory, group)
-                         .dimensions(width, height)
-                         .maxTrackingRange(maxTrackingRange)
-                         .build());
-        return type;
+        return Registry.register(
+                Registries.ENTITY_TYPE,
+                Identifier.of(TutorialMod.MOD_ID, name + "_entity"),
+                EntityType.Builder
+                        .create(factory, group)
+                        .dimensions(width, height)
+                        .maxTrackingRange(maxTrackingRange)
+                        .build());
+
     }
 
     //////////////////////////////////// Registering in TutorialMod onInitialize Method ////////////////////////////////////

@@ -20,10 +20,10 @@ import java.util.Random;
 
 public class FireWallSpell extends ModSpell {
 
-    ;
+    public static final String ID = "fire_wall_spell";
 
     public FireWallSpell() {
-        super("fire_wall_spell", 0, 60, ModKeyBinding.FIRE_WALL_SPELL, false, 1200, false);
+        super(ID, 0, 60, ModKeyBinding.FIRE_WALL_SPELL, false, 1200, false);
     }
 
     @Override

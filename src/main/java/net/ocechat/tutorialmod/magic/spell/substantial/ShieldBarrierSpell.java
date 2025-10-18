@@ -16,8 +16,10 @@ import org.jetbrains.annotations.Nullable;
 
 public class ShieldBarrierSpell extends ModSpell {
 
+    public static final String ID = "shield_barrier_spell";
+
     public ShieldBarrierSpell() {
-        super("shield_barrier_spell",0, 100, ModKeyBinding.SHIELD_BARRIER_SPELL, false, 1200, false);
+        super(ID,0, 100, ModKeyBinding.SHIELD_BARRIER_SPELL, false, 1200, false);
     }
 
 

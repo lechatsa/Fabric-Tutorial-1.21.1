@@ -12,15 +12,15 @@ import org.lwjgl.glfw.GLFW;
 
 public class ModKeyBinding {
 
-    public static final KeyBinding FIREBALL_SPELL = registerKeyBinding(new FireballSpell(), InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_4);
-    public static final KeyBinding SHIELD_BARRIER_SPELL = registerKeyBinding(new ShieldBarrierSpell(), InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_5);
-    public static final KeyBinding FIRE_WALL_SPELL = registerKeyBinding(new FireWallSpell(), InputUtil.Type.MOUSE, GLFW.GLFW_KEY_R);
+    public static final KeyBinding FIREBALL_SPELL = registerKeyBinding( FireballSpell.ID, InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_4);
+    public static final KeyBinding SHIELD_BARRIER_SPELL = registerKeyBinding( ShieldBarrierSpell.ID, InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_5);
+    public static final KeyBinding FIRE_WALL_SPELL = registerKeyBinding( FireWallSpell.ID, InputUtil.Type.MOUSE, GLFW.GLFW_KEY_R);
 
 
 
-    private static <T extends ModSpell> KeyBinding registerKeyBinding(T spell, InputUtil.Type type, int buttonPressed ) {
+    private static <T extends ModSpell> KeyBinding registerKeyBinding(String spellId, InputUtil.Type type, int buttonPressed ) {
         return KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.tutorialmod." + spell.getId(),
+                "key.tutorialmod." + spellId,
                  type,
                 buttonPressed,
                 "category.tutorialmod.keys"

@@ -18,10 +18,10 @@ import org.jetbrains.annotations.Nullable;
 public class FireballSpell extends ModSpell {
 
     public float timeToCharged;
-
+    public static final String ID = "fireball_spell";
 
     public FireballSpell() {
-        super("fireball_spell", 0, 60, ModKeyBinding.FIREBALL_SPELL, true, 2000, true);
+        super(ID, 0, 60, ModKeyBinding.FIREBALL_SPELL, true, 2000, true);
 
         this.timeToCharged = 60;
 
