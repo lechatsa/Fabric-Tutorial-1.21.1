@@ -62,7 +62,7 @@ public class FireballSpell extends ModSpell {
 
     @Override
     public void tick(SpellInstance instance) {
-        this.setCurrentCooldown(this.getCurrentCooldown() - 1);
+        super.tick(instance);
         if (!(instance.getAttachedElement() instanceof FireballEntity fireball)) return;
 
         if (!fireball.isAlive() || getLifetime() < getCurrentLifetime()) {
@@ -74,20 +74,7 @@ public class FireballSpell extends ModSpell {
 
     @Override
     public void tryCast(World world, PlayerEntity player, @Nullable Integer deltaTime) {
-
-            if (canCast(player)) {
-                this.setCurrentCooldown(this.getCooldown());
-
-                cast(world, player, deltaTime);
-
-                player.sendMessage(Text.literal("You cast the Spell : " + this.getId()), true);
-
-            } else {
-
-                player.sendMessage(Text.literal("The Spell is in cooldown !"), true);
-
-            }
-
+            super.tryCast(world, player, deltaTime);
     }
 
 }

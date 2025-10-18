@@ -1,6 +1,7 @@
 package net.ocechat.tutorialmod.magic.spell;
 
 import net.minecraft.client.option.KeyBinding;
+import net.minecraft.text.Text;
 import net.minecraft.world.World;
 
 import net.minecraft.entity.player.PlayerEntity;
@@ -49,9 +50,25 @@ public abstract class ModSpell {
         }
     }
 
-    public abstract void tryCast(World world, PlayerEntity player, @Nullable Integer deltaTime);
+    public void tryCast(World world, PlayerEntity player, @Nullable Integer deltaTime) {
+        if (canCast(player)) {
+            this.setCurrentCooldown(this.getCooldown());
 
-    public abstract void tick(SpellInstance instance);
+            cast(world, player, deltaTime);
+
+            player.sendMessage(Text.literal("You cast the Spell : " + this.getId().toUpperCase()), true);
+
+        } else {
+
+            player.sendMessage(Text.literal("The Spell is in cooldown !"), true);
+
+        }
+    }
+
+    public void tick(SpellInstance instance) {
+        this.currentCooldown--;
+        this.currentLifetime++;
+    }
 
 
     //////////////////////////////////////////////////////// Getter ////////////////////////////////////////////////////////

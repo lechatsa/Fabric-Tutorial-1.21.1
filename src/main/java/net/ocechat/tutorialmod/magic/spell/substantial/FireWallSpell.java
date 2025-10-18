@@ -17,7 +17,7 @@ import java.util.List;
 public class FireWallSpell extends ModSpell {
 
     public FireWallSpell() {
-        super("fire_wall_spell", 0, 0, ModKeyBinding.FIRE_WALL_SPELL, false, 60, false);
+        super("fire_wall_spell", 0, 40, ModKeyBinding.FIRE_WALL_SPELL, false, 60, false);
     }
 
     @Override
@@ -64,14 +64,11 @@ public class FireWallSpell extends ModSpell {
 
     @Override
     public void tryCast(World world, PlayerEntity player, @Nullable Integer deltaTime) {
-        if (canCast(player)) {
-            setCurrentCooldown(getCooldown());
-            cast(world, player, deltaTime);
-        }
+        super.tryCast(world, player, deltaTime);
     }
 
     @Override
     public void tick(SpellInstance instance) {
-        // Sort instantané, rien à faire ici
+        super.tick(instance);
     }
 }
