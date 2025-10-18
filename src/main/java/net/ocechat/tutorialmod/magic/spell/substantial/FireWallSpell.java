@@ -5,6 +5,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.ocechat.tutorialmod.OcechatMath;
 import net.ocechat.tutorialmod.magic.spell.ModSpell;
 import net.ocechat.tutorialmod.magic.spell.utility.ActivesSpells;
 import net.ocechat.tutorialmod.magic.spell.utility.SpellInstance;
@@ -43,7 +44,7 @@ public class FireWallSpell extends ModSpell {
         for (int i = 2; i < rangeHorizontal + 2; i++) {
             // Position le long du vecteur de direction
             Vec3d pos = basePos.add(look.multiply(i));
-            BlockPos blockPos = new BlockPos((int) pos.x, (int) pos.y, (int) pos.z);
+            BlockPos blockPos = OcechatMath.Vec3dToBlockPos(pos);
 
             // Cherche le premier bloc solide en dessous
             BlockPos current = blockPos;

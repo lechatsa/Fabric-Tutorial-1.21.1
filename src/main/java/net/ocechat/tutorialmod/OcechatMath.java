@@ -1,8 +1,10 @@
 package net.ocechat.tutorialmod;
 
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
+import org.jetbrains.annotations.Nullable;
 
 public class OcechatMath {
 
@@ -62,5 +64,9 @@ public class OcechatMath {
         double k = 0.07675; // coefficient de croissance
 
         return 2 * (1 - Math.exp(-k * deltaTime));
+    }
+
+    public static BlockPos Vec3dToBlockPos(Vec3d vector) {
+        return new BlockPos((int) Math.ceil(vector.x), (int) Math.ceil(vector.y), (int) Math.ceil(vector.z));
     }
 }

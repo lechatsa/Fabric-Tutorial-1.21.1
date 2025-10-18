@@ -7,8 +7,10 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.ocechat.tutorialmod.TutorialMod;
+import net.ocechat.tutorialmod.entity.custom.ap_projectile_spell_entity.APProjectileSpellEntity;
 import net.ocechat.tutorialmod.entity.custom.fireball_spell_entity.FireballSpellEntity;
 import net.ocechat.tutorialmod.entity.custom.shield_barrier_spell_entity.ShieldBarrierSpellEntity;
+import net.ocechat.tutorialmod.magic.spell.substantial.APProjectileSpell;
 import net.ocechat.tutorialmod.magic.spell.substantial.FireballSpell;
 import net.ocechat.tutorialmod.magic.spell.substantial.ShieldBarrierSpell;
 
@@ -18,6 +20,7 @@ public class ModEntities {
     //////////////////////////////////////// Here are Register the Customs Entities ////////////////////////////////////////
 
     public static EntityType<FireballSpellEntity> FIREBALL_SPELL_ENTITY = registerEntity(FireballSpell.ID, FireballSpellEntity::new, SpawnGroup.MISC, 0.5f, 0.5f, 100);
+    public static EntityType<APProjectileSpellEntity> AP_PROJECTILE_SPELL_ENTITY = registerEntity(APProjectileSpell.ID, APProjectileSpellEntity::new, SpawnGroup.MISC, 0.5f, 0.5f, 100);
     public static EntityType<ShieldBarrierSpellEntity> SHIELD_BARRIER_SPELL_ENTITY = registerEntity(ShieldBarrierSpell.ID, ShieldBarrierSpellEntity::new, SpawnGroup.MISC, 4f, 2.4f, 100);
 
 

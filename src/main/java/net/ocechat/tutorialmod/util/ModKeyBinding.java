@@ -5,6 +5,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.ocechat.tutorialmod.TutorialMod;
 import net.ocechat.tutorialmod.magic.spell.ModSpell;
+import net.ocechat.tutorialmod.magic.spell.substantial.APProjectileSpell;
 import net.ocechat.tutorialmod.magic.spell.substantial.FireWallSpell;
 import net.ocechat.tutorialmod.magic.spell.substantial.FireballSpell;
 import net.ocechat.tutorialmod.magic.spell.substantial.ShieldBarrierSpell;
@@ -13,6 +14,7 @@ import org.lwjgl.glfw.GLFW;
 public class ModKeyBinding {
 
     public static final KeyBinding FIREBALL_SPELL = registerKeyBinding( FireballSpell.ID, InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_4);
+    public static final KeyBinding AP_PROJECTILE_SPELL = registerKeyBinding( APProjectileSpell.ID, InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R);
     public static final KeyBinding SHIELD_BARRIER_SPELL = registerKeyBinding( ShieldBarrierSpell.ID, InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_5);
     public static final KeyBinding FIRE_WALL_SPELL = registerKeyBinding( FireWallSpell.ID, InputUtil.Type.MOUSE, GLFW.GLFW_KEY_R);
 

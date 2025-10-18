@@ -6,6 +6,7 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.util.Identifier;
 import net.ocechat.tutorialmod.TutorialMod;
 import net.ocechat.tutorialmod.magic.spell.ModSpell;
+import net.ocechat.tutorialmod.magic.spell.substantial.APProjectileSpell;
 import net.ocechat.tutorialmod.magic.spell.substantial.FireWallSpell;
 import net.ocechat.tutorialmod.magic.spell.substantial.FireballSpell;
 import net.ocechat.tutorialmod.magic.spell.substantial.ShieldBarrierSpell;
@@ -38,6 +39,7 @@ public class KeyInputHandler {
 
         // Charging spells (press -> start (false), release -> cast (true))
         handleCharging(client, ModKeyBinding.FIREBALL_SPELL, FireballSpell.ID);
+        handleCharging(client, ModKeyBinding.AP_PROJECTILE_SPELL, APProjectileSpell.ID);
 
     }
 
@@ -47,13 +49,19 @@ public class KeyInputHandler {
         int tick = client.world == null ? 0 : client.world.getTime() > Integer.MAX_VALUE ? 0 : (int)(client.world.getTime() % Integer.MAX_VALUE);
 
         if (pressed && !wasPressed) {
-            TutorialMod.LOGGER.info("[KeyInput] Pressed start for " + id);
+
+            if (TutorialMod.DEBUG_MODE) {
+                TutorialMod.LOGGER.info("[KeyInput] Pressed start for " + id);
+            }
+
             SpellCastNetworking.sendSpell(Identifier.of(TutorialMod.MOD_ID, id), false); // start charging
             lastSentTick.put(kb, tick);
         }
 
         if (!pressed && wasPressed) {
-            TutorialMod.LOGGER.info("[KeyInput] Released -> send cast for " + id);
+            if (TutorialMod.DEBUG_MODE) {
+                TutorialMod.LOGGER.info("[KeyInput] Released -> send cast for " + id);
+            }
             SpellCastNetworking.sendSpell(Identifier.of(TutorialMod.MOD_ID, id), true); // release => cast
             lastSentTick.put(kb, tick);
         }
@@ -71,11 +79,15 @@ public class KeyInputHandler {
         if (pressed && !wasPressed) {
             // anti-spam: ne pas envoyer si dernier envoi trop récent
             if (tick - lastTick >= SPAM_TICK_DELAY) {
-                TutorialMod.LOGGER.info("[KeyInput] NonCharging: send " + id);
+                if (TutorialMod.DEBUG_MODE) {
+                    TutorialMod.LOGGER.info("[KeyInput] NonCharging: send " + id);
+                }
                 SpellCastNetworking.sendSpell(Identifier.of(TutorialMod.MOD_ID, id), true);
                 lastSentTick.put(kb, tick);
             } else {
-                TutorialMod.LOGGER.info("[KeyInput] NonCharging: skipped spam " + id);
+                if (TutorialMod.DEBUG_MODE) {
+                    TutorialMod.LOGGER.info("[KeyInput] NonCharging: skipped spam " + id);
+                }
             }
         }
 

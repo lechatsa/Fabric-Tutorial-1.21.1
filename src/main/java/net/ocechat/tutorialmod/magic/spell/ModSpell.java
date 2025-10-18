@@ -29,8 +29,6 @@ public abstract class ModSpell {
     private final Map<UUID, Integer> playerCooldowns = new ConcurrentHashMap<>();
 
 
-
-
     public ModSpell(String id, int manaCost, int cooldown, KeyBinding keyBinding, boolean AffectedByGravity, int lifetime, boolean needToCharge) {
 
         this.id = id;

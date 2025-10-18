@@ -31,14 +31,11 @@ public class FireballSpell extends ModSpell {
 
     @Override
     public void cast(World world, PlayerEntity player, Integer deltaTime) {
-        // Direction du regard
-        Vec3d look = player.getRotationVec(1.0F);
-
-        // Position des yeux du joueur
-        Vec3d eyePos = player.getEyePos();
+        Vec3d playerPosition = player.getEyePos();
+        Vec3d playerRotation = player.getRotationVec(1f);
 
         // Distance devant les yeux (0.6 = juste devant la tête)
-        Vec3d spawnPos = eyePos.add(look.multiply(1));
+        Vec3d spawnPos = playerPosition.add(playerRotation.multiply(1));
 
         // Création de la boule de feu
         FireballSpellEntity fireball = new FireballSpellEntity(ModEntities.FIREBALL_SPELL_ENTITY, world);
@@ -48,7 +45,7 @@ public class FireballSpell extends ModSpell {
         fireball.setPos(spawnPos.x, spawnPos.y, spawnPos.z);
 
         // Direction + vitesse
-        fireball.setVelocity(look.multiply(OcechatMath.velocityToTime(deltaTime)));
+        fireball.setVelocity(playerRotation.multiply(OcechatMath.velocityToTime(deltaTime)));
 
         // Empêche la boule de feu de brûler
         fireball.setOnFire(false);
