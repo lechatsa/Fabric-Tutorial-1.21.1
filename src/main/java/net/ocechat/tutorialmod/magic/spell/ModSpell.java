@@ -9,6 +9,10 @@ import net.ocechat.tutorialmod.TutorialMod;
 import net.ocechat.tutorialmod.magic.spell.utility.SpellInstance;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
 
 public abstract class ModSpell {
 
@@ -22,7 +26,7 @@ public abstract class ModSpell {
     private int currentCooldown;
     private int currentLifetime;
     private final boolean needToCharge;
-
+    private final Map<UUID, Integer> playerCooldowns = new ConcurrentHashMap<>();
 
 
 
@@ -44,30 +48,32 @@ public abstract class ModSpell {
     }
 
 
-    public void cast(World world, PlayerEntity player, @Nullable Integer deltaTime) {
-        if (TutorialMod.DEBUG_MODE) {
-            TutorialMod.LOGGER.info("[{}] Cast triggered by {}", this.getId().toUpperCase(), player.getName().getString());
-        }
-    }
+    public abstract void cast(World world, PlayerEntity player, @Nullable Integer deltaTime);
 
     public void tryCast(World world, PlayerEntity player, @Nullable Integer deltaTime) {
-        if (canCast(player)) {
-            this.setCurrentCooldown(this.getCooldown());
-
-            cast(world, player, deltaTime);
-
-            player.sendMessage(Text.literal("You cast the Spell : " + this.getId().toUpperCase()), true);
-
-        } else {
-
-            player.sendMessage(Text.literal("The Spell is in cooldown !"), true);
-
+        if (!canCast(player)) {
+            int remaining = playerCooldowns.getOrDefault(player.getUuid(), 0);
+            player.sendMessage(Text.literal("Cooldown: " + (remaining / 20f)  + "s"), true);
+            return;
         }
+
+        // Reset cooldown pour ce joueur
+        playerCooldowns.put(player.getUuid(), cooldown);
+        cast(world, player, deltaTime);
+
+        if (TutorialMod.DEBUG_MODE)
+            TutorialMod.LOGGER.info("[{}] Cast triggered by {}", id.toUpperCase(), player.getName().getString());
+
+        player.sendMessage(Text.literal("You cast the spell: " + id.toUpperCase()), true);
     }
 
     public void tick(SpellInstance instance) {
-        this.currentCooldown--;
-        this.currentLifetime++;
+        for (UUID id : playerCooldowns.keySet()) {
+            int current = playerCooldowns.get(id);
+            if (current > 0) {
+                playerCooldowns.put(id, current - 1);
+            }
+        }
     }
 
 
@@ -102,7 +108,7 @@ public abstract class ModSpell {
     }
 
     public boolean canCast(PlayerEntity player) {
-        return currentCooldown <= 0;
+        return playerCooldowns.getOrDefault(player.getUuid(), 0) <= 0;
     }
 
     public boolean isAffectedByGravity() {

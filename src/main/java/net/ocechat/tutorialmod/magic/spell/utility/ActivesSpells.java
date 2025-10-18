@@ -21,9 +21,9 @@ public class ActivesSpells {
                     instance.tick();
 
                     if (instance.isExpire()) {
+                        toRemove.add(instance);
                         if (instance.getAttachedElement() != null)
                             instance.getAttachedElement().discard();
-                        toRemove.add(instance);
                     }
                 }
             }

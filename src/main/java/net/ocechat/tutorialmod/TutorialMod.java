@@ -19,6 +19,7 @@ import net.ocechat.tutorialmod.magic.casting.SpellCastPayload;
 import net.ocechat.tutorialmod.network.SpellCastNetworking;
 import net.ocechat.tutorialmod.sound.ModSound;
 import net.ocechat.tutorialmod.util.HammerUsageEvent;
+import net.ocechat.tutorialmod.util.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import net.ocechat.tutorialmod.magic.spell.utility.ModSpellRegistry;
@@ -37,7 +38,7 @@ public class TutorialMod implements ModInitializer {
 
         ModEntities.registerModEntities();
 
-
+        Scheduler.registerScheduler();
 
         ModItems.registerModItems();
         ModBlocks.registerModBlocks();

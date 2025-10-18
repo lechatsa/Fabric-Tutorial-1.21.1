@@ -31,7 +31,6 @@ public class FireballSpell extends ModSpell {
 
     @Override
     public void cast(World world, PlayerEntity player, Integer deltaTime) {
-        super.cast(world, player, deltaTime);
         // Direction du regard
         Vec3d look = player.getRotationVec(1.0F);
 

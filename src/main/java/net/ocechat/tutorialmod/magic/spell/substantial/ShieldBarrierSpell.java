@@ -16,9 +16,8 @@ import org.jetbrains.annotations.Nullable;
 
 public class ShieldBarrierSpell extends ModSpell {
 
-
     public ShieldBarrierSpell() {
-        super("shield_barrier_spell",60, 100, ModKeyBinding.SHIELD_BARRIER_SPELL, false, 10, false);
+        super("shield_barrier_spell",0, 100, ModKeyBinding.SHIELD_BARRIER_SPELL, false, 1200, false);
     }
 
 
@@ -27,7 +26,7 @@ public class ShieldBarrierSpell extends ModSpell {
     @Override
     public void cast(World world, PlayerEntity player, @Nullable Integer deltaTime) {
 
-        super.cast(world, player, deltaTime);
+
 
         if (world.isClient) return; // IMPORTANT : n'exécute le spawn QUE côté serveur
 

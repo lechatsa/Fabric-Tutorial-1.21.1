@@ -5,24 +5,29 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.ocechat.tutorialmod.TutorialMod;
 import net.ocechat.tutorialmod.magic.spell.ModSpell;
+import net.ocechat.tutorialmod.magic.spell.utility.ActivesSpells;
 import net.ocechat.tutorialmod.magic.spell.utility.SpellInstance;
 import net.ocechat.tutorialmod.util.ModKeyBinding;
+import net.ocechat.tutorialmod.util.Scheduler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
+
 
 public class FireWallSpell extends ModSpell {
 
+    ;
+
     public FireWallSpell() {
-        super("fire_wall_spell", 0, 40, ModKeyBinding.FIRE_WALL_SPELL, false, 60, false);
+        super("fire_wall_spell", 0, 60, ModKeyBinding.FIRE_WALL_SPELL, false, 1200, false);
     }
 
     @Override
     public void cast(World world, PlayerEntity player, @Nullable Integer deltaTime) {
-        super.cast(world, player, deltaTime);
 
         if (world.isClient) return; // uniquement côté serveur
 
@@ -57,9 +62,22 @@ public class FireWallSpell extends ModSpell {
 
 
         // Allume le feu
-        for (BlockPos pos : blocksToIgnite) {
-            world.setBlockState(pos, Blocks.FIRE.getDefaultState());
+        for (int i = 0; i < blocksToIgnite.size(); i++) {
+
+            BlockPos pos = blocksToIgnite.get(i);
+
+            double delay = i * 1.5 + new Random().nextInt(1); // 2 ticks entre chaque feu
+
+
+            Scheduler.schedule((int) delay, () -> {
+
+                world.setBlockState(pos, Blocks.FIRE.getDefaultState());
+
+            });
         }
+
+        ActivesSpells.addSpell(new SpellInstance(player, this, null));
+
     }
 
     @Override
@@ -70,5 +88,6 @@ public class FireWallSpell extends ModSpell {
     @Override
     public void tick(SpellInstance instance) {
         super.tick(instance);
+
     }
 }
