@@ -1,18 +1,14 @@
 package net.ocechat.tutorialmod.entity.custom.ap_projectile_spell_entity;
 
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.AnimationState;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.MovementType;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -21,9 +17,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import net.ocechat.tutorialmod.OcechatMath;
-import net.ocechat.tutorialmod.TutorialMod;
 
-import static net.ocechat.tutorialmod.OcechatMath.Vec3dToBlockPos;
 
 public class APProjectileSpellEntity extends ProjectileEntity {
 
@@ -83,6 +77,7 @@ public class APProjectileSpellEntity extends ProjectileEntity {
         Vec3d step = velocity.multiply(1.0 / steps);
 
         for (int i = 0; i < steps; i++) {
+
             Vec3d stepStart = start.add(step.multiply(i));
             Vec3d stepEnd = stepStart.add(step);
 
@@ -99,29 +94,37 @@ public class APProjectileSpellEntity extends ProjectileEntity {
                 BlockHitResult blockHitResult = (BlockHitResult) hitResult;
                 BlockPos positionOfHit = blockHitResult.getBlockPos();
 
-                if (!world.getBlockState(positionOfHit).isAir() || world.getBlockState(positionOfHit).isOf(Blocks.BEDROCK)) {
-                    if (numberOfBlockPenetrated >= 5) {
+                if (world.getBlockState(positionOfHit).isAir()) return;
+                if (world.getBlockState(positionOfHit) == Blocks.BEDROCK.getDefaultState()) {
 
-                        this.discard();
-                        return;
+                    world.playSound(null, positionOfHit, SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.BLOCKS, 1, 1.0f + (this.getWorld().random.nextFloat() * 0.2f - 0.1f));
+                    this.discard();
+                    return;
 
-                    } else {
+                }
 
 
+                if (numberOfBlockPenetrated >= 5) {
 
-                        SoundEvent soundOfBlockDestroy =  world.getBlockState(positionOfHit).getSoundGroup().getBreakSound();
+                    this.discard();
+                    return;
 
-                        world.setBlockState(positionOfHit, Blocks.AIR.getDefaultState());
-                        world.playSound(this, positionOfHit, soundOfBlockDestroy, SoundCategory.BLOCKS, 1, 1.0f + (this.getWorld().random.nextFloat() * 0.2f - 0.1f));
-                        numberOfBlockPenetrated++;
+                } else {
 
-                    }
+                    SoundEvent soundOfBlockDestroy =  world.getBlockState(positionOfHit).getSoundGroup().getBreakSound();
+
+                    world.setBlockState(positionOfHit, Blocks.AIR.getDefaultState());
+                    world.playSound(null, positionOfHit, soundOfBlockDestroy, SoundCategory.BLOCKS, 1, 1.0f + (this.getWorld().random.nextFloat() * 0.2f - 0.1f));
+                    numberOfBlockPenetrated++;
+
                 }
             }
 
             else if (hitResult.getType() == HitResult.Type.ENTITY) {
+
                 EntityHitResult entityHitResult = (EntityHitResult) hitResult;
                 entityHitResult.getEntity().kill();
+
             }
         }
     }
