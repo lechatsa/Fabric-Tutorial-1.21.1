@@ -9,11 +9,19 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import net.ocechat.tutorialmod.OcechatMath;
+import net.ocechat.tutorialmod.TutorialMod;
 
 import static net.ocechat.tutorialmod.OcechatMath.Vec3dToBlockPos;
 
@@ -34,16 +42,14 @@ public class APProjectileSpellEntity extends ProjectileEntity {
 
 
         Vec3d velocity = this.getVelocity();
-        velocity = OcechatMath.addGravitation(velocity, OcechatMath.vectorGravitation(-0.01));
-        this.setVelocity(velocity);
-        this.move(MovementType.SELF, velocity);
+        velocity = OcechatMath.addGravitation(velocity, OcechatMath.vectorGravitation(-0.03));
 
+        this.setVelocity(velocity);
+        this.WillCollideWithSomething(velocity);
+        this.setPosition(this.getPos().add(velocity));
 
         this.getWorld().addParticle(ParticleTypes.SMOKE, this.getX(), this.getY(), this.getZ(), 0, 0, 0);
-        this.getWorld().addParticle(ParticleTypes.CAMPFIRE_COSY_SMOKE, this.getX(), this.getY(), this.getZ(), 0, 0, 0);
-        this.getWorld().addParticle(ParticleTypes.CAMPFIRE_SIGNAL_SMOKE, this.getX(), this.getY(), this.getZ(), 0, 0, 0);
-
-        this.WillCollideWithSomething(velocity);
+        this.getWorld().addParticle(ParticleTypes.CRIT, this.getX(), this.getY(), this.getZ(), 0, 0, 0);
 
         this.animationState.startIfNotRunning(this.age);
     }
@@ -65,19 +71,57 @@ public class APProjectileSpellEntity extends ProjectileEntity {
     }
 
     protected void WillCollideWithSomething(Vec3d velocity) {
-        if (!this.getWorld().isClient) {
-            Vec3d position = this.getPos();
-            World world = this.getWorld();
-            Vec3d nextPosition = position.add(velocity);
-            BlockPos nextBlockPosition = Vec3dToBlockPos(nextPosition);
+        if (this.getWorld().isClient) return;
 
-            if (!world.getBlockState(nextBlockPosition).isAir()) {
-                if (numberOfBlockPenetrated >= maxPenetration) {
-                    discard();
-                } else {
-                    world.setBlockState(nextBlockPosition, Blocks.AIR.getDefaultState());
-                    numberOfBlockPenetrated++;
+        Vec3d position = this.getPos();
+        World world = this.getWorld();
+
+        Vec3d start = position;
+        double distance = velocity.length();
+        int steps = Math.max(1, (int) Math.ceil(distance / 0.1)); // une vérif tous les 0.1 bloc
+
+        Vec3d step = velocity.multiply(1.0 / steps);
+
+        for (int i = 0; i < steps; i++) {
+            Vec3d stepStart = start.add(step.multiply(i));
+            Vec3d stepEnd = stepStart.add(step);
+
+            HitResult hitResult = world.raycast(new RaycastContext(
+                    stepStart,
+                    stepEnd,
+                    RaycastContext.ShapeType.COLLIDER,
+                    RaycastContext.FluidHandling.NONE,
+                    this
+            ));
+
+            if (hitResult.getType() == HitResult.Type.BLOCK) {
+
+                BlockHitResult blockHitResult = (BlockHitResult) hitResult;
+                BlockPos positionOfHit = blockHitResult.getBlockPos();
+
+                if (!world.getBlockState(positionOfHit).isAir() || world.getBlockState(positionOfHit).isOf(Blocks.BEDROCK)) {
+                    if (numberOfBlockPenetrated >= 5) {
+
+                        this.discard();
+                        return;
+
+                    } else {
+
+
+
+                        SoundEvent soundOfBlockDestroy =  world.getBlockState(positionOfHit).getSoundGroup().getBreakSound();
+
+                        world.setBlockState(positionOfHit, Blocks.AIR.getDefaultState());
+                        world.playSound(this, positionOfHit, soundOfBlockDestroy, SoundCategory.BLOCKS, 1, 1.0f + (this.getWorld().random.nextFloat() * 0.2f - 0.1f));
+                        numberOfBlockPenetrated++;
+
+                    }
                 }
+            }
+
+            else if (hitResult.getType() == HitResult.Type.ENTITY) {
+                EntityHitResult entityHitResult = (EntityHitResult) hitResult;
+                entityHitResult.getEntity().kill();
             }
         }
     }

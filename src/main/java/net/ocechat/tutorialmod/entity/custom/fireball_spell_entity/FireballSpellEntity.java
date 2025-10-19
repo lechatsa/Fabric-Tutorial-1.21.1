@@ -30,7 +30,7 @@ public class FireballSpellEntity extends ProjectileEntity {
         Vec3d velocity = this.getVelocity();
         velocity = OcechatMath.addGravitation(velocity, OcechatMath.vectorGravitation(-0.04));
         this.setVelocity(velocity);
-        this.move(MovementType.SELF, velocity);
+        this.setPosition(this.getPos().add(velocity));
 
 
         this.getWorld().addParticle(ParticleTypes.SMOKE, this.getX(), this.getY(), this.getZ(), 0, 0, 0);
