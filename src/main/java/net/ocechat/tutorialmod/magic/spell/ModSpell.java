@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static net.ocechat.tutorialmod.TutorialMod.*;
+
 
 public abstract class ModSpell {
 
@@ -59,10 +61,9 @@ public abstract class ModSpell {
         playerCooldowns.put(player.getUuid(), cooldown);
         cast(world, player, deltaTime);
 
-        if (TutorialMod.DEBUG_MODE)
-            TutorialMod.LOGGER.info("[{}] Cast triggered by {}", id.toUpperCase(), player.getName().getString());
+        if (DEBUG_MODE) LOGGER.info("[{}] Cast triggered by {}", id.toUpperCase(), player.getName().getString());
 
-        player.sendMessage(Text.literal("You cast the spell: " + id.toUpperCase()), true);
+        player.sendMessage(Text.literal("You cast the spell: " + id), true);
     }
 
     public void tick(SpellInstance instance) {

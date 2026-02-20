@@ -3,10 +3,7 @@ package net.ocechat.tutorialmod.magic.spell.utility;
 import net.minecraft.util.Identifier;
 import net.ocechat.tutorialmod.TutorialMod;
 import net.ocechat.tutorialmod.magic.spell.ModSpell;
-import net.ocechat.tutorialmod.magic.spell.substantial.APProjectileSpell;
-import net.ocechat.tutorialmod.magic.spell.substantial.FireWallSpell;
-import net.ocechat.tutorialmod.magic.spell.substantial.FireballSpell;
-import net.ocechat.tutorialmod.magic.spell.substantial.ShieldBarrierSpell;
+import net.ocechat.tutorialmod.magic.spell.substantial.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,6 +30,7 @@ public class ModSpellRegistry {
         register(new ShieldBarrierSpell());
         register(new FireWallSpell());
         register(new APProjectileSpell());
+        register(new MeteorStrikeSpell());
 
     }
 }

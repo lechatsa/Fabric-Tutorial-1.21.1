@@ -1,10 +1,16 @@
 package net.ocechat.tutorialmod;
 
+
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.particle.ParticleEffect;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.particle.SimpleParticleType;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.World;
+
 
 public class OcechatMath {
 
@@ -69,4 +75,36 @@ public class OcechatMath {
     public static BlockPos Vec3dToBlockPos(Vec3d vector) {
         return new BlockPos((int) Math.ceil(vector.x), (int) Math.ceil(vector.y), (int) Math.ceil(vector.z));
     }
+
+    ///////////////////////////////// Draw a line in particles between to position (Vector 3D) /////////////////////////////////
+    public static void drawLine(World world, Vec3d origine, Vec3d startingPoint, int densityOfPoint) {
+        Vec3d direction = startingPoint.subtract(origine);
+        double distance = origine.distanceTo(startingPoint);
+
+        double numberOfPointInOneMeter = (double) densityOfPoint / 10;
+        double multiplier = 1 /numberOfPointInOneMeter;
+
+        Vec3d increment = direction.multiply(multiplier);
+        double numberOfPointInTotal = distance/increment.length();
+
+        for (int i = 0; i<= numberOfPointInTotal; i++) {
+            Vec3d pos = startingPoint.add(increment.multiply(i));
+
+            world.addParticle(ParticleTypes.HAPPY_VILLAGER, pos.x, pos.y, pos.z, 0, 0,0);
+
+        }
+    }
+
+    public static void drawLine2(World world, Vec3d start, Vec3d end, int points, SimpleParticleType particle) {
+        Vec3d direction = end.subtract(start);
+
+        for (int i = 0; i <= points; i++) {
+            double progress = (double) i / points;
+            Vec3d pos = start.add(direction.multiply(progress));
+
+            world.addParticle(particle, pos.x, pos.y, pos.z, 0, 0,0);
+        }
+    }
+
+
 }

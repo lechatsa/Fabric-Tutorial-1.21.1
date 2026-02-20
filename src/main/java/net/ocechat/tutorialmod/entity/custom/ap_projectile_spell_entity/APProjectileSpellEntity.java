@@ -123,7 +123,7 @@ public class APProjectileSpellEntity extends ProjectileEntity {
             else if (hitResult.getType() == HitResult.Type.ENTITY) {
 
                 EntityHitResult entityHitResult = (EntityHitResult) hitResult;
-                entityHitResult.getEntity().kill();
+                entityHitResult.getEntity().damage(world.getDamageSources().magic(), 40f);
 
             }
         }

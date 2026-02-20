@@ -5,28 +5,50 @@ import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.ocechat.tutorialmod.TutorialMod;
 import net.ocechat.tutorialmod.magic.spell.ModSpell;
-import net.ocechat.tutorialmod.magic.spell.substantial.APProjectileSpell;
-import net.ocechat.tutorialmod.magic.spell.substantial.FireWallSpell;
-import net.ocechat.tutorialmod.magic.spell.substantial.FireballSpell;
-import net.ocechat.tutorialmod.magic.spell.substantial.ShieldBarrierSpell;
+import net.ocechat.tutorialmod.magic.spell.substantial.*;
+import net.ocechat.tutorialmod.magic.spell.utility.ModSpellRegistry;
 import org.lwjgl.glfw.GLFW;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ModKeyBinding {
 
-    public static final KeyBinding FIREBALL_SPELL = registerKeyBinding( FireballSpell.ID, InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_4);
-    public static final KeyBinding AP_PROJECTILE_SPELL = registerKeyBinding( APProjectileSpell.ID, InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R);
-    public static final KeyBinding SHIELD_BARRIER_SPELL = registerKeyBinding( ShieldBarrierSpell.ID, InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_5);
-    public static final KeyBinding FIRE_WALL_SPELL = registerKeyBinding( FireWallSpell.ID, InputUtil.Type.MOUSE, GLFW.GLFW_KEY_R);
+    private static final Map<ModSpell, KeyBinding> SPELL_KEYBINDS = new HashMap<>();
+
+    //////////////////////////////////////// Declare Here the keybind of a new Spell ////////////////////////////////////////
+    public static final KeyBinding FIREBALL_SPELL =
+            registerKeyBinding(FireballSpell.ID, InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_4);
+
+    public static final KeyBinding AP_PROJECTILE_SPELL =
+            registerKeyBinding(APProjectileSpell.ID, InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_R);
+
+    public static final KeyBinding SHIELD_BARRIER_SPELL =
+            registerKeyBinding(ShieldBarrierSpell.ID, InputUtil.Type.MOUSE, GLFW.GLFW_MOUSE_BUTTON_5);
+
+    public static final KeyBinding FIRE_WALL_SPELL =
+            registerKeyBinding(FireWallSpell.ID, InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_V);
+
+    public static final KeyBinding METEOR_STRIKE_SPELL =
+            registerKeyBinding(MeteorStrikeSpell.ID, InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_B);
 
 
 
-    private static <T extends ModSpell> KeyBinding registerKeyBinding(String spellId, InputUtil.Type type, int buttonPressed ) {
-        return KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.tutorialmod." + spellId,
-                 type,
-                buttonPressed,
-                "category.tutorialmod.keys"
-        ));
+
+    private static KeyBinding registerKeyBinding(String spellId, InputUtil.Type type, int key) {
+
+        KeyBinding keyBinding = KeyBindingHelper.registerKeyBinding(
+                new KeyBinding(
+                        "key.tutorialmod." + spellId,
+                        type,
+                        key,
+                        "category.tutorialmod.keys"
+                )
+        );
+
+        SPELL_KEYBINDS.put(ModSpellRegistry.get(spellId), keyBinding);
+
+        return keyBinding;
     }
 
     public static void registerModKeyBinding() {

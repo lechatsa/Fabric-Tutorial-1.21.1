@@ -10,6 +10,8 @@ import net.ocechat.tutorialmod.magic.spell.utility.ModSpellRegistry;
 
 import java.util.UUID;
 
+import static net.ocechat.tutorialmod.TutorialMod.*;
+
 public class SpellCastNetworking {
     //////////////////////////// Handle the sending and the receiving of Client To Server Packets ///////////////////////////
 
@@ -22,15 +24,12 @@ public class SpellCastNetworking {
     /// Receiving Server Side | Client -> Server
     public static void registerC2SPackets() {
 
-        if (TutorialMod.DEBUG_MODE) {
-            TutorialMod.LOGGER.info("Registering C2S packets for " + TutorialMod.MOD_ID);
-        }
+        if (DEBUG_MODE) LOGGER.info("Registering C2S packets for " + TutorialMod.MOD_ID);
+
 
         ServerPlayNetworking.registerGlobalReceiver(SpellCastPayload.ID, (payload, context) -> {
 
-            if (TutorialMod.DEBUG_MODE) {
-                TutorialMod.LOGGER.info("Received packet " + payload.spellId());
-            }
+            if (DEBUG_MODE) LOGGER.info("Received packet " + payload.spellId());
 
             //////////////////////////////////////////// Initialisation of the Variables ////////////////////////////////////////////
             var player = context.player();
@@ -48,7 +47,7 @@ public class SpellCastNetworking {
                 UUID playerId = player.getUuid();
 
                 if (spell == null) {
-                    TutorialMod.LOGGER.warn("The Spell send isn't associated to a ModSpell in ModSpellRegistry ");
+                    LOGGER.warn("The Spell send isn't associated to a ModSpell in ModSpellRegistry ");
                     return;
                 }
 
@@ -61,7 +60,7 @@ public class SpellCastNetworking {
                         var chargingSpell = ChargingSpell.CHARGING_SPELLS.get(playerId);
 
                         if (chargingSpell == null) { // Verification
-                            TutorialMod.LOGGER.warn("Aucun sort chargé trouvé pour {}", player.getName().getString());
+                            LOGGER.warn("Aucun sort chargé trouvé pour {}", player.getName().getString());
                             return;
                         }
 
